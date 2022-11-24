@@ -1,0 +1,13 @@
+AutoECO Report
+FILE-A: G:\DRM V3R3\DRM1-31.MAX
+FILE-B: G:\DRM V3R3\DRM1.MNL
+If "*EOF*" immediately follows, no changes were made
+Deleting C138.1 from net GND
+Adding EDGE.25 to net EDG25
+Adding EDGE.23 to net EDG23
+Adding EDGE.24 to net EDG24
+Adding U17.1 to net N15092156
+Adding U17.24 to net NC
+Deleting component C138
+*EOF*
+No errors found

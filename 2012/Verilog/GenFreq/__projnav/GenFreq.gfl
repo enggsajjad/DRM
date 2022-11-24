@@ -1,0 +1,2231 @@
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+freq.ngd
+freq_ngdbuild.nav
+freq.bld
+freq.ucf.untf
+freq.cmd_log
+# Implementation : Map
+freq_map.ncd
+freq.ngm
+freq.pcf
+freq.nc1
+freq.mrp
+freq_map.mrp
+freq.mdf
+__projnav/map.log
+freq.cmd_log
+MAP_NO_GUIDE_FILE_CPF "freq"
+# Implmentation : Post-Place & Route Timing
+__projnav/ncdTOtwr_tcl.rsp
+__projnav/posttrc.log
+freq.twr
+freq.twx
+freq.tsi
+freq.cmd_log
+# Implmentation : Place & Route
+__projnav/nc1TOncd_tcl.rsp
+freq.ncd
+freq.par
+freq.pad
+freq_pad.txt
+freq_pad.csv
+freq.pad_txt
+freq.dly
+reportgen.log
+freq.xpi
+freq.grf
+freq.itr
+freq_last_par.ncd
+__projnav/par.log
+freq.placed_ncd_tracker
+freq.routed_ncd_tracker
+freq.cmd_log
+PAR_NO_GUIDE_FILE_CPF "freq"
+# Generate Programming File
+__projnav/freq_ncdTOut_tcl.rsp
+__projnav/bitgen.rsp
+bitgen.ut
+freq.ut
+# Generate Programming File
+freq.bgn
+freq.rbt
+freq.ll
+freq.msk
+freq.drc
+freq.nky
+freq.bit
+freq.bin
+freq.isc
+freq.cmd_log
+# Generate PROM, ACE, or JTAG File
+freq.ace
+xilinx.sys
+freq.mpm
+freq.mcs
+freq.prm
+freq.dst
+freq.exo
+freq.tek
+freq.hex
+freq.svf
+freq.stapl
+impact.cmd
+_impact.log
+_impact.cmd
+# Configure Device (iMPACT)
+freq.prm
+freq.isc
+freq.svf
+xilinx.sys
+freq.mcs
+freq.exo
+freq.hex
+freq.tek
+freq.dst
+freq.dst_compressed
+freq.mpm
+_impact.cmd
+_impact.log
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+freq.ngd
+freq_ngdbuild.nav
+freq.bld
+freq.ucf.untf
+freq.cmd_log
+# Implementation : Map
+freq_map.ncd
+freq.ngm
+freq.pcf
+freq.nc1
+freq.mrp
+freq_map.mrp
+freq.mdf
+__projnav/map.log
+freq.cmd_log
+MAP_NO_GUIDE_FILE_CPF "freq"
+# Implmentation : Post-Place & Route Timing
+__projnav/ncdTOtwr_tcl.rsp
+__projnav/posttrc.log
+freq.twr
+freq.twx
+freq.tsi
+freq.cmd_log
+# Implmentation : Place & Route
+__projnav/nc1TOncd_tcl.rsp
+freq.ncd
+freq.par
+freq.pad
+freq_pad.txt
+freq_pad.csv
+freq.pad_txt
+freq.dly
+reportgen.log
+freq.xpi
+freq.grf
+freq.itr
+freq_last_par.ncd
+__projnav/par.log
+freq.placed_ncd_tracker
+freq.routed_ncd_tracker
+freq.cmd_log
+PAR_NO_GUIDE_FILE_CPF "freq"
+# Generate Programming File
+__projnav/freq_ncdTOut_tcl.rsp
+__projnav/bitgen.rsp
+bitgen.ut
+freq.ut
+# Generate Programming File
+freq.bgn
+freq.rbt
+freq.ll
+freq.msk
+freq.drc
+freq.nky
+freq.bit
+freq.bin
+freq.isc
+freq.cmd_log
+# Generate PROM, ACE, or JTAG File
+freq.ace
+xilinx.sys
+freq.mpm
+freq.mcs
+freq.prm
+freq.dst
+freq.exo
+freq.tek
+freq.hex
+freq.svf
+freq.stapl
+impact.cmd
+_impact.log
+_impact.cmd
+# Configure Device (iMPACT)
+freq.prm
+freq.isc
+freq.svf
+xilinx.sys
+freq.mcs
+freq.exo
+freq.hex
+freq.tek
+freq.dst
+freq.dst_compressed
+freq.mpm
+_impact.cmd
+_impact.log
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+freq.ngd
+freq_ngdbuild.nav
+freq.bld
+freq.ucf.untf
+freq.cmd_log
+# Implementation : Map
+freq_map.ncd
+freq.ngm
+freq.pcf
+freq.nc1
+freq.mrp
+freq_map.mrp
+freq.mdf
+__projnav/map.log
+freq.cmd_log
+MAP_NO_GUIDE_FILE_CPF "freq"
+# Implmentation : Post-Place & Route Timing
+__projnav/ncdTOtwr_tcl.rsp
+__projnav/posttrc.log
+freq.twr
+freq.twx
+freq.tsi
+freq.cmd_log
+# Implmentation : Place & Route
+__projnav/nc1TOncd_tcl.rsp
+freq.ncd
+freq.par
+freq.pad
+freq_pad.txt
+freq_pad.csv
+freq.pad_txt
+freq.dly
+reportgen.log
+freq.xpi
+freq.grf
+freq.itr
+freq_last_par.ncd
+__projnav/par.log
+freq.placed_ncd_tracker
+freq.routed_ncd_tracker
+freq.cmd_log
+PAR_NO_GUIDE_FILE_CPF "freq"
+# Generate Programming File
+__projnav/freq_ncdTOut_tcl.rsp
+__projnav/bitgen.rsp
+bitgen.ut
+freq.ut
+# Generate Programming File
+freq.bgn
+freq.rbt
+freq.ll
+freq.msk
+freq.drc
+freq.nky
+freq.bit
+freq.bin
+freq.isc
+freq.cmd_log
+# Generate PROM, ACE, or JTAG File
+freq.ace
+xilinx.sys
+freq.mpm
+freq.mcs
+freq.prm
+freq.dst
+freq.exo
+freq.tek
+freq.hex
+freq.svf
+freq.stapl
+impact.cmd
+_impact.log
+_impact.cmd
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+freq.ngd
+freq_ngdbuild.nav
+freq.bld
+freq.ucf.untf
+freq.cmd_log
+# Implementation : Map
+freq_map.ncd
+freq.ngm
+freq.pcf
+freq.nc1
+freq.mrp
+freq_map.mrp
+freq.mdf
+__projnav/map.log
+freq.cmd_log
+MAP_NO_GUIDE_FILE_CPF "freq"
+# Implmentation : Post-Place & Route Timing
+__projnav/ncdTOtwr_tcl.rsp
+__projnav/posttrc.log
+freq.twr
+freq.twx
+freq.tsi
+freq.cmd_log
+# Implmentation : Place & Route
+__projnav/nc1TOncd_tcl.rsp
+freq.ncd
+freq.par
+freq.pad
+freq_pad.txt
+freq_pad.csv
+freq.pad_txt
+freq.dly
+reportgen.log
+freq.xpi
+freq.grf
+freq.itr
+freq_last_par.ncd
+__projnav/par.log
+freq.placed_ncd_tracker
+freq.routed_ncd_tracker
+freq.cmd_log
+PAR_NO_GUIDE_FILE_CPF "freq"
+# Generate Programming File
+__projnav/freq_ncdTOut_tcl.rsp
+__projnav/bitgen.rsp
+bitgen.ut
+freq.ut
+# Generate Programming File
+freq.bgn
+freq.rbt
+freq.ll
+freq.msk
+freq.drc
+freq.nky
+freq.bit
+freq.bin
+freq.isc
+freq.cmd_log
+# Generate PROM, ACE, or JTAG File
+freq.ace
+xilinx.sys
+freq.mpm
+freq.mcs
+freq.prm
+freq.dst
+freq.exo
+freq.tek
+freq.hex
+freq.svf
+freq.stapl
+impact.cmd
+_impact.log
+_impact.cmd
+# Configure Device (iMPACT)
+freq.prm
+freq.isc
+freq.svf
+xilinx.sys
+freq.mcs
+freq.exo
+freq.hex
+freq.tek
+freq.dst
+freq.dst_compressed
+freq.mpm
+_impact.cmd
+_impact.log
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+freq.ngd
+freq_ngdbuild.nav
+freq.bld
+freq.ucf.untf
+freq.cmd_log
+# Implementation : Map
+freq_map.ncd
+freq.ngm
+freq.pcf
+freq.nc1
+freq.mrp
+freq_map.mrp
+freq.mdf
+__projnav/map.log
+freq.cmd_log
+MAP_NO_GUIDE_FILE_CPF "freq"
+# Implmentation : Post-Place & Route Timing
+__projnav/ncdTOtwr_tcl.rsp
+__projnav/posttrc.log
+freq.twr
+freq.twx
+freq.tsi
+freq.cmd_log
+# Implmentation : Place & Route
+__projnav/nc1TOncd_tcl.rsp
+freq.ncd
+freq.par
+freq.pad
+freq_pad.txt
+freq_pad.csv
+freq.pad_txt
+freq.dly
+reportgen.log
+freq.xpi
+freq.grf
+freq.itr
+freq_last_par.ncd
+__projnav/par.log
+freq.placed_ncd_tracker
+freq.routed_ncd_tracker
+freq.cmd_log
+PAR_NO_GUIDE_FILE_CPF "freq"
+# Generate Programming File
+__projnav/freq_ncdTOut_tcl.rsp
+__projnav/bitgen.rsp
+bitgen.ut
+freq.ut
+# Generate Programming File
+freq.bgn
+freq.rbt
+freq.ll
+freq.msk
+freq.drc
+freq.nky
+freq.bit
+freq.bin
+freq.isc
+freq.cmd_log
+# Generate PROM, ACE, or JTAG File
+freq.ace
+xilinx.sys
+freq.mpm
+freq.mcs
+freq.prm
+freq.dst
+freq.exo
+freq.tek
+freq.hex
+freq.svf
+freq.stapl
+impact.cmd
+_impact.log
+_impact.cmd
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+freq.ngd
+freq_ngdbuild.nav
+freq.bld
+freq.ucf.untf
+freq.cmd_log
+# Implementation : Map
+freq_map.ncd
+freq.ngm
+freq.pcf
+freq.nc1
+freq.mrp
+freq_map.mrp
+freq.mdf
+__projnav/map.log
+freq.cmd_log
+MAP_NO_GUIDE_FILE_CPF "freq"
+# Implmentation : Post-Place & Route Timing
+__projnav/ncdTOtwr_tcl.rsp
+__projnav/posttrc.log
+freq.twr
+freq.twx
+freq.tsi
+freq.cmd_log
+# Implmentation : Place & Route
+__projnav/nc1TOncd_tcl.rsp
+freq.ncd
+freq.par
+freq.pad
+freq_pad.txt
+freq_pad.csv
+freq.pad_txt
+freq.dly
+reportgen.log
+freq.xpi
+freq.grf
+freq.itr
+freq_last_par.ncd
+__projnav/par.log
+freq.placed_ncd_tracker
+freq.routed_ncd_tracker
+freq.cmd_log
+PAR_NO_GUIDE_FILE_CPF "freq"
+# Generate Programming File
+__projnav/freq_ncdTOut_tcl.rsp
+__projnav/bitgen.rsp
+bitgen.ut
+freq.ut
+# Generate Programming File
+freq.bgn
+freq.rbt
+freq.ll
+freq.msk
+freq.drc
+freq.nky
+freq.bit
+freq.bin
+freq.isc
+freq.cmd_log
+# Configure Device (iMPACT)
+freq.prm
+freq.isc
+freq.svf
+xilinx.sys
+freq.mcs
+freq.exo
+freq.hex
+freq.tek
+freq.dst
+freq.dst_compressed
+freq.mpm
+_impact.cmd
+_impact.log
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+freq.ngd
+freq_ngdbuild.nav
+freq.bld
+freq.ucf.untf
+freq.cmd_log
+# Implementation : Map
+freq_map.ncd
+freq.ngm
+freq.pcf
+freq.nc1
+freq.mrp
+freq_map.mrp
+freq.mdf
+__projnav/map.log
+freq.cmd_log
+MAP_NO_GUIDE_FILE_CPF "freq"
+# Implmentation : Post-Place & Route Timing
+__projnav/ncdTOtwr_tcl.rsp
+__projnav/posttrc.log
+freq.twr
+freq.twx
+freq.tsi
+freq.cmd_log
+# Implmentation : Place & Route
+__projnav/nc1TOncd_tcl.rsp
+freq.ncd
+freq.par
+freq.pad
+freq_pad.txt
+freq_pad.csv
+freq.pad_txt
+freq.dly
+reportgen.log
+freq.xpi
+freq.grf
+freq.itr
+freq_last_par.ncd
+__projnav/par.log
+freq.placed_ncd_tracker
+freq.routed_ncd_tracker
+freq.cmd_log
+PAR_NO_GUIDE_FILE_CPF "freq"
+# Generate Programming File
+__projnav/freq_ncdTOut_tcl.rsp
+__projnav/bitgen.rsp
+bitgen.ut
+freq.ut
+# Generate Programming File
+freq.bgn
+freq.rbt
+freq.ll
+freq.msk
+freq.drc
+freq.nky
+freq.bit
+freq.bin
+freq.isc
+freq.cmd_log
+# Generate PROM, ACE, or JTAG File
+freq.ace
+xilinx.sys
+freq.mpm
+freq.mcs
+freq.prm
+freq.dst
+freq.exo
+freq.tek
+freq.hex
+freq.svf
+freq.stapl
+impact.cmd
+_impact.log
+_impact.cmd
+# Configure Device (iMPACT)
+freq.prm
+freq.isc
+freq.svf
+xilinx.sys
+freq.mcs
+freq.exo
+freq.hex
+freq.tek
+freq.dst
+freq.dst_compressed
+freq.mpm
+_impact.cmd
+_impact.log
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+freq.ngd
+freq_ngdbuild.nav
+freq.bld
+freq.ucf.untf
+freq.cmd_log
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+freq.ngd
+freq_ngdbuild.nav
+freq.bld
+freq.ucf.untf
+freq.cmd_log
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+freq.ngd
+freq_ngdbuild.nav
+freq.bld
+freq.ucf.untf
+freq.cmd_log
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+freq.ngd
+freq_ngdbuild.nav
+freq.bld
+freq.ucf.untf
+freq.cmd_log
+# Implementation : Map
+freq_map.ncd
+freq.ngm
+freq.pcf
+freq.nc1
+freq.mrp
+freq_map.mrp
+freq.mdf
+__projnav/map.log
+freq.cmd_log
+MAP_NO_GUIDE_FILE_CPF "freq"
+# Implmentation : Post-Place & Route Timing
+__projnav/ncdTOtwr_tcl.rsp
+__projnav/posttrc.log
+freq.twr
+freq.twx
+freq.tsi
+freq.cmd_log
+# Implmentation : Place & Route
+__projnav/nc1TOncd_tcl.rsp
+freq.ncd
+freq.par
+freq.pad
+freq_pad.txt
+freq_pad.csv
+freq.pad_txt
+freq.dly
+reportgen.log
+freq.xpi
+freq.grf
+freq.itr
+freq_last_par.ncd
+__projnav/par.log
+freq.placed_ncd_tracker
+freq.routed_ncd_tracker
+freq.cmd_log
+PAR_NO_GUIDE_FILE_CPF "freq"
+# Generate Programming File
+__projnav/freq_ncdTOut_tcl.rsp
+__projnav/bitgen.rsp
+bitgen.ut
+freq.ut
+# Generate Programming File
+freq.bgn
+freq.rbt
+freq.ll
+freq.msk
+freq.drc
+freq.nky
+freq.bit
+freq.bin
+freq.isc
+freq.cmd_log
+# Generate PROM, ACE, or JTAG File
+freq.ace
+xilinx.sys
+freq.mpm
+freq.mcs
+freq.prm
+freq.dst
+freq.exo
+freq.tek
+freq.hex
+freq.svf
+freq.stapl
+impact.cmd
+_impact.log
+_impact.cmd
+# Configure Device (iMPACT)
+freq.prm
+freq.isc
+freq.svf
+xilinx.sys
+freq.mcs
+freq.exo
+freq.hex
+freq.tek
+freq.dst
+freq.dst_compressed
+freq.mpm
+_impact.cmd
+_impact.log
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+freq.ngd
+freq_ngdbuild.nav
+freq.bld
+freq.ucf.untf
+freq.cmd_log
+# Implementation : Map
+freq_map.ncd
+freq.ngm
+freq.pcf
+freq.nc1
+freq.mrp
+freq_map.mrp
+freq.mdf
+__projnav/map.log
+freq.cmd_log
+MAP_NO_GUIDE_FILE_CPF "freq"
+# Implmentation : Post-Place & Route Timing
+__projnav/ncdTOtwr_tcl.rsp
+__projnav/posttrc.log
+freq.twr
+freq.twx
+freq.tsi
+freq.cmd_log
+# Implmentation : Place & Route
+__projnav/nc1TOncd_tcl.rsp
+freq.ncd
+freq.par
+freq.pad
+freq_pad.txt
+freq_pad.csv
+freq.pad_txt
+freq.dly
+reportgen.log
+freq.xpi
+freq.grf
+freq.itr
+freq_last_par.ncd
+__projnav/par.log
+freq.placed_ncd_tracker
+freq.routed_ncd_tracker
+freq.cmd_log
+PAR_NO_GUIDE_FILE_CPF "freq"
+# Generate Programming File
+__projnav/freq_ncdTOut_tcl.rsp
+__projnav/bitgen.rsp
+bitgen.ut
+freq.ut
+# Generate Programming File
+freq.bgn
+freq.rbt
+freq.ll
+freq.msk
+freq.drc
+freq.nky
+freq.bit
+freq.bin
+freq.isc
+freq.cmd_log
+# Generate PROM, ACE, or JTAG File
+freq.ace
+xilinx.sys
+freq.mpm
+freq.mcs
+freq.prm
+freq.dst
+freq.exo
+freq.tek
+freq.hex
+freq.svf
+freq.stapl
+impact.cmd
+_impact.log
+_impact.cmd
+# Configure Device (iMPACT)
+freq.prm
+freq.isc
+freq.svf
+xilinx.sys
+freq.mcs
+freq.exo
+freq.hex
+freq.tek
+freq.dst
+freq.dst_compressed
+freq.mpm
+_impact.cmd
+_impact.log
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+freq.ngd
+freq_ngdbuild.nav
+freq.bld
+freq.ucf.untf
+freq.cmd_log
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+freq.ngd
+freq_ngdbuild.nav
+freq.bld
+freq.ucf.untf
+freq.cmd_log
+# Implementation : Map
+freq_map.ncd
+freq.ngm
+freq.pcf
+freq.nc1
+freq.mrp
+freq_map.mrp
+freq.mdf
+__projnav/map.log
+freq.cmd_log
+MAP_NO_GUIDE_FILE_CPF "freq"
+# Implmentation : Post-Place & Route Timing
+__projnav/ncdTOtwr_tcl.rsp
+__projnav/posttrc.log
+freq.twr
+freq.twx
+freq.tsi
+freq.cmd_log
+# Implmentation : Place & Route
+__projnav/nc1TOncd_tcl.rsp
+freq.ncd
+freq.par
+freq.pad
+freq_pad.txt
+freq_pad.csv
+freq.pad_txt
+freq.dly
+reportgen.log
+freq.xpi
+freq.grf
+freq.itr
+freq_last_par.ncd
+__projnav/par.log
+freq.placed_ncd_tracker
+freq.routed_ncd_tracker
+freq.cmd_log
+PAR_NO_GUIDE_FILE_CPF "freq"
+# Generate Programming File
+__projnav/freq_ncdTOut_tcl.rsp
+__projnav/bitgen.rsp
+bitgen.ut
+freq.ut
+# Generate Programming File
+freq.bgn
+freq.rbt
+freq.ll
+freq.msk
+freq.drc
+freq.nky
+freq.bit
+freq.bin
+freq.isc
+freq.cmd_log
+# Generate PROM, ACE, or JTAG File
+freq.ace
+xilinx.sys
+freq.mpm
+freq.mcs
+freq.prm
+freq.dst
+freq.exo
+freq.tek
+freq.hex
+freq.svf
+freq.stapl
+impact.cmd
+_impact.log
+_impact.cmd
+# Configure Device (iMPACT)
+freq.prm
+freq.isc
+freq.svf
+xilinx.sys
+freq.mcs
+freq.exo
+freq.hex
+freq.tek
+freq.dst
+freq.dst_compressed
+freq.mpm
+_impact.cmd
+_impact.log
+# Configure Device (iMPACT)
+freq.prm
+freq.isc
+freq.svf
+xilinx.sys
+freq.mcs
+freq.exo
+freq.hex
+freq.tek
+freq.dst
+freq.dst_compressed
+freq.mpm
+_impact.cmd
+_impact.log
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+freq.ngd
+freq_ngdbuild.nav
+freq.bld
+freq.ucf.untf
+freq.cmd_log
+# Implementation : Map
+freq_map.ncd
+freq.ngm
+freq.pcf
+freq.nc1
+freq.mrp
+freq_map.mrp
+freq.mdf
+__projnav/map.log
+freq.cmd_log
+MAP_NO_GUIDE_FILE_CPF "freq"
+# Implmentation : Post-Place & Route Timing
+__projnav/ncdTOtwr_tcl.rsp
+__projnav/posttrc.log
+freq.twr
+freq.twx
+freq.tsi
+freq.cmd_log
+# Implmentation : Place & Route
+__projnav/nc1TOncd_tcl.rsp
+freq.ncd
+freq.par
+freq.pad
+freq_pad.txt
+freq_pad.csv
+freq.pad_txt
+freq.dly
+reportgen.log
+freq.xpi
+freq.grf
+freq.itr
+freq_last_par.ncd
+__projnav/par.log
+freq.placed_ncd_tracker
+freq.routed_ncd_tracker
+freq.cmd_log
+PAR_NO_GUIDE_FILE_CPF "freq"
+# Generate Programming File
+__projnav/freq_ncdTOut_tcl.rsp
+__projnav/bitgen.rsp
+bitgen.ut
+freq.ut
+# Generate Programming File
+freq.bgn
+freq.rbt
+freq.ll
+freq.msk
+freq.drc
+freq.nky
+freq.bit
+freq.bin
+freq.isc
+freq.cmd_log
+# Generate PROM, ACE, or JTAG File
+freq.ace
+xilinx.sys
+freq.mpm
+freq.mcs
+freq.prm
+freq.dst
+freq.exo
+freq.tek
+freq.hex
+freq.svf
+freq.stapl
+impact.cmd
+_impact.log
+_impact.cmd
+# Configure Device (iMPACT)
+freq.prm
+freq.isc
+freq.svf
+xilinx.sys
+freq.mcs
+freq.exo
+freq.hex
+freq.tek
+freq.dst
+freq.dst_compressed
+freq.mpm
+_impact.cmd
+_impact.log
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+freq.ngd
+freq_ngdbuild.nav
+freq.bld
+freq.ucf.untf
+freq.cmd_log
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+freq.ngd
+freq_ngdbuild.nav
+freq.bld
+freq.ucf.untf
+freq.cmd_log
+# Implementation : Map
+freq_map.ncd
+freq.ngm
+freq.pcf
+freq.nc1
+freq.mrp
+freq_map.mrp
+freq.mdf
+__projnav/map.log
+freq.cmd_log
+MAP_NO_GUIDE_FILE_CPF "freq"
+# Implmentation : Post-Place & Route Timing
+__projnav/ncdTOtwr_tcl.rsp
+__projnav/posttrc.log
+freq.twr
+freq.twx
+freq.tsi
+freq.cmd_log
+# Implmentation : Place & Route
+__projnav/nc1TOncd_tcl.rsp
+freq.ncd
+freq.par
+freq.pad
+freq_pad.txt
+freq_pad.csv
+freq.pad_txt
+freq.dly
+reportgen.log
+freq.xpi
+freq.grf
+freq.itr
+freq_last_par.ncd
+__projnav/par.log
+freq.placed_ncd_tracker
+freq.routed_ncd_tracker
+freq.cmd_log
+PAR_NO_GUIDE_FILE_CPF "freq"
+# Generate Programming File
+__projnav/freq_ncdTOut_tcl.rsp
+__projnav/bitgen.rsp
+bitgen.ut
+freq.ut
+# Generate Programming File
+freq.bgn
+freq.rbt
+freq.ll
+freq.msk
+freq.drc
+freq.nky
+freq.bit
+freq.bin
+freq.isc
+freq.cmd_log
+# Generate PROM, ACE, or JTAG File
+freq.ace
+xilinx.sys
+freq.mpm
+freq.mcs
+freq.prm
+freq.dst
+freq.exo
+freq.tek
+freq.hex
+freq.svf
+freq.stapl
+impact.cmd
+_impact.log
+_impact.cmd
+# Configure Device (iMPACT)
+freq.prm
+freq.isc
+freq.svf
+xilinx.sys
+freq.mcs
+freq.exo
+freq.hex
+freq.tek
+freq.dst
+freq.dst_compressed
+freq.mpm
+_impact.cmd
+_impact.log
+# Configure Device (iMPACT)
+freq.prm
+freq.isc
+freq.svf
+xilinx.sys
+freq.mcs
+freq.exo
+freq.hex
+freq.tek
+freq.dst
+freq.dst_compressed
+freq.mpm
+_impact.cmd
+_impact.log
+# Generate PROM, ACE, or JTAG File
+freq.ace
+xilinx.sys
+freq.mpm
+freq.mcs
+freq.prm
+freq.dst
+freq.exo
+freq.tek
+freq.hex
+freq.svf
+freq.stapl
+impact.cmd
+_impact.log
+_impact.cmd
+# Configure Device (iMPACT)
+freq.prm
+freq.isc
+freq.svf
+xilinx.sys
+freq.mcs
+freq.exo
+freq.hex
+freq.tek
+freq.dst
+freq.dst_compressed
+freq.mpm
+_impact.cmd
+_impact.log
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+freq.ngd
+freq_ngdbuild.nav
+freq.bld
+freq.ucf.untf
+freq.cmd_log
+# Implementation : Map
+freq_map.ncd
+freq.ngm
+freq.pcf
+freq.nc1
+freq.mrp
+freq_map.mrp
+freq.mdf
+__projnav/map.log
+freq.cmd_log
+MAP_NO_GUIDE_FILE_CPF "freq"
+# Implmentation : Post-Place & Route Timing
+__projnav/ncdTOtwr_tcl.rsp
+__projnav/posttrc.log
+freq.twr
+freq.twx
+freq.tsi
+freq.cmd_log
+# Implmentation : Place & Route
+__projnav/nc1TOncd_tcl.rsp
+freq.ncd
+freq.par
+freq.pad
+freq_pad.txt
+freq_pad.csv
+freq.pad_txt
+freq.dly
+reportgen.log
+freq.xpi
+freq.grf
+freq.itr
+freq_last_par.ncd
+__projnav/par.log
+freq.placed_ncd_tracker
+freq.routed_ncd_tracker
+freq.cmd_log
+PAR_NO_GUIDE_FILE_CPF "freq"
+# Generate Programming File
+__projnav/freq_ncdTOut_tcl.rsp
+__projnav/bitgen.rsp
+bitgen.ut
+freq.ut
+# Generate Programming File
+freq.bgn
+freq.rbt
+freq.ll
+freq.msk
+freq.drc
+freq.nky
+freq.bit
+freq.bin
+freq.isc
+freq.cmd_log
+# Generate PROM, ACE, or JTAG File
+freq.ace
+xilinx.sys
+freq.mpm
+freq.mcs
+freq.prm
+freq.dst
+freq.exo
+freq.tek
+freq.hex
+freq.svf
+freq.stapl
+impact.cmd
+_impact.log
+_impact.cmd
+# Configure Device (iMPACT)
+freq.prm
+freq.isc
+freq.svf
+xilinx.sys
+freq.mcs
+freq.exo
+freq.hex
+freq.tek
+freq.dst
+freq.dst_compressed
+freq.mpm
+_impact.cmd
+_impact.log
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+freq.ngd
+freq_ngdbuild.nav
+freq.bld
+freq.ucf.untf
+freq.cmd_log
+# Implementation : Map
+freq_map.ncd
+freq.ngm
+freq.pcf
+freq.nc1
+freq.mrp
+freq_map.mrp
+freq.mdf
+__projnav/map.log
+freq.cmd_log
+MAP_NO_GUIDE_FILE_CPF "freq"
+# Implmentation : Post-Place & Route Timing
+__projnav/ncdTOtwr_tcl.rsp
+__projnav/posttrc.log
+freq.twr
+freq.twx
+freq.tsi
+freq.cmd_log
+# Implmentation : Place & Route
+__projnav/nc1TOncd_tcl.rsp
+freq.ncd
+freq.par
+freq.pad
+freq_pad.txt
+freq_pad.csv
+freq.pad_txt
+freq.dly
+reportgen.log
+freq.xpi
+freq.grf
+freq.itr
+freq_last_par.ncd
+__projnav/par.log
+freq.placed_ncd_tracker
+freq.routed_ncd_tracker
+freq.cmd_log
+PAR_NO_GUIDE_FILE_CPF "freq"
+# Generate Programming File
+__projnav/freq_ncdTOut_tcl.rsp
+__projnav/bitgen.rsp
+bitgen.ut
+freq.ut
+# Generate Programming File
+freq.bgn
+freq.rbt
+freq.ll
+freq.msk
+freq.drc
+freq.nky
+freq.bit
+freq.bin
+freq.isc
+freq.cmd_log
+# Generate PROM, ACE, or JTAG File
+freq.ace
+xilinx.sys
+freq.mpm
+freq.mcs
+freq.prm
+freq.dst
+freq.exo
+freq.tek
+freq.hex
+freq.svf
+freq.stapl
+impact.cmd
+_impact.log
+_impact.cmd
+# Configure Device (iMPACT)
+freq.prm
+freq.isc
+freq.svf
+xilinx.sys
+freq.mcs
+freq.exo
+freq.hex
+freq.tek
+freq.dst
+freq.dst_compressed
+freq.mpm
+_impact.cmd
+_impact.log
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+freq.ngd
+freq_ngdbuild.nav
+freq.bld
+freq.ucf.untf
+freq.cmd_log
+# Implementation : Map
+freq_map.ncd
+freq.ngm
+freq.pcf
+freq.nc1
+freq.mrp
+freq_map.mrp
+freq.mdf
+__projnav/map.log
+freq.cmd_log
+MAP_NO_GUIDE_FILE_CPF "freq"
+# Implmentation : Post-Place & Route Timing
+__projnav/ncdTOtwr_tcl.rsp
+__projnav/posttrc.log
+freq.twr
+freq.twx
+freq.tsi
+freq.cmd_log
+# Implmentation : Place & Route
+__projnav/nc1TOncd_tcl.rsp
+freq.ncd
+freq.par
+freq.pad
+freq_pad.txt
+freq_pad.csv
+freq.pad_txt
+freq.dly
+reportgen.log
+freq.xpi
+freq.grf
+freq.itr
+freq_last_par.ncd
+__projnav/par.log
+freq.placed_ncd_tracker
+freq.routed_ncd_tracker
+freq.cmd_log
+PAR_NO_GUIDE_FILE_CPF "freq"
+# Generate Programming File
+__projnav/freq_ncdTOut_tcl.rsp
+__projnav/bitgen.rsp
+bitgen.ut
+freq.ut
+# Generate Programming File
+freq.bgn
+freq.rbt
+freq.ll
+freq.msk
+freq.drc
+freq.nky
+freq.bit
+freq.bin
+freq.isc
+freq.cmd_log
+# Generate PROM, ACE, or JTAG File
+freq.ace
+xilinx.sys
+freq.mpm
+freq.mcs
+freq.prm
+freq.dst
+freq.exo
+freq.tek
+freq.hex
+freq.svf
+freq.stapl
+impact.cmd
+_impact.log
+_impact.cmd
+# Configure Device (iMPACT)
+freq.prm
+freq.isc
+freq.svf
+xilinx.sys
+freq.mcs
+freq.exo
+freq.hex
+freq.tek
+freq.dst
+freq.dst_compressed
+freq.mpm
+_impact.cmd
+_impact.log
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# XST (Creating Lso File) : 
+freq.lso
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# xst flow : RunXST
+freq.syr
+freq.prj
+freq.sprj
+freq.ana
+freq.stx
+freq.cmd_log
+freq.ngc
+freq.ngr
+# XST (Creating Lso File) : 
+RateMeter.lso
+# xst flow : RunXST
+RateMeter.syr
+RateMeter.prj
+RateMeter.sprj
+RateMeter.ana
+RateMeter.stx
+RateMeter.cmd_log
+# XST (Creating Lso File) : 
+RateMeter.lso
+# xst flow : RunXST
+RateMeter.syr
+RateMeter.prj
+RateMeter.sprj
+RateMeter.ana
+RateMeter.stx
+RateMeter.cmd_log
+RateMeter.ngc
+RateMeter.ngr
+# XST (Creating Lso File) : 
+RateMeter.lso
+# xst flow : RunXST
+RateMeter.syr
+RateMeter.prj
+RateMeter.sprj
+RateMeter.ana
+RateMeter.stx
+RateMeter.cmd_log
+RateMeter.ngc
+RateMeter.ngr
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+RateMeter.ngd
+RateMeter_ngdbuild.nav
+RateMeter.bld
+.untf
+RateMeter.cmd_log
+# Implementation : Map
+RateMeter_map.ncd
+RateMeter.ngm
+RateMeter.pcf
+RateMeter.nc1
+RateMeter.mrp
+RateMeter_map.mrp
+RateMeter.mdf
+__projnav/map.log
+RateMeter.cmd_log
+MAP_NO_GUIDE_FILE_CPF "RateMeter"
+# Implmentation : Post-Place & Route Timing
+__projnav/ncdTOtwr_tcl.rsp
+__projnav/posttrc.log
+RateMeter.twr
+RateMeter.twx
+RateMeter.tsi
+RateMeter.cmd_log
+# Implmentation : Place & Route
+__projnav/nc1TOncd_tcl.rsp
+RateMeter.ncd
+RateMeter.par
+RateMeter.pad
+RateMeter_pad.txt
+RateMeter_pad.csv
+RateMeter.pad_txt
+RateMeter.dly
+reportgen.log
+RateMeter.xpi
+RateMeter.grf
+RateMeter.itr
+RateMeter_last_par.ncd
+__projnav/par.log
+RateMeter.placed_ncd_tracker
+RateMeter.routed_ncd_tracker
+RateMeter.cmd_log
+PAR_NO_GUIDE_FILE_CPF "RateMeter"
+# Generate Programming File
+__projnav/RateMeter_ncdTOut_tcl.rsp
+__projnav/bitgen.rsp
+bitgen.ut
+RateMeter.ut
+# Generate Programming File
+RateMeter.bgn
+RateMeter.rbt
+RateMeter.ll
+RateMeter.msk
+RateMeter.drc
+RateMeter.nky
+RateMeter.bit
+RateMeter.bin
+RateMeter.isc
+RateMeter.cmd_log
+# Generate PROM, ACE, or JTAG File
+RateMeter.ace
+xilinx.sys
+RateMeter.mpm
+RateMeter.mcs
+RateMeter.prm
+RateMeter.dst
+RateMeter.exo
+RateMeter.tek
+RateMeter.hex
+RateMeter.svf
+RateMeter.stapl
+impact.cmd
+_impact.log
+_impact.cmd
+# Configure Device (iMPACT)
+RateMeter.prm
+RateMeter.isc
+RateMeter.svf
+xilinx.sys
+RateMeter.mcs
+RateMeter.exo
+RateMeter.hex
+RateMeter.tek
+RateMeter.dst
+RateMeter.dst_compressed
+RateMeter.mpm
+_impact.cmd
+_impact.log
+# Generate PROM, ACE, or JTAG File
+RateMeter.ace
+xilinx.sys
+RateMeter.mpm
+RateMeter.mcs
+RateMeter.prm
+RateMeter.dst
+RateMeter.exo
+RateMeter.tek
+RateMeter.hex
+RateMeter.svf
+RateMeter.stapl
+impact.cmd
+_impact.log
+_impact.cmd
+# Configure Device (iMPACT)
+RateMeter.prm
+RateMeter.isc
+RateMeter.svf
+xilinx.sys
+RateMeter.mcs
+RateMeter.exo
+RateMeter.hex
+RateMeter.tek
+RateMeter.dst
+RateMeter.dst_compressed
+RateMeter.mpm
+_impact.cmd
+_impact.log
+# XST (Creating Lso File) : 
+RateMeter.lso
+# xst flow : RunXST
+RateMeter.syr
+RateMeter.prj
+RateMeter.sprj
+RateMeter.ana
+RateMeter.stx
+RateMeter.cmd_log
+RateMeter.ngc
+RateMeter.ngr
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+RateMeter.ngd
+RateMeter_ngdbuild.nav
+RateMeter.bld
+freq.ucf.untf
+RateMeter.cmd_log
+# Implementation : Map
+RateMeter_map.ncd
+RateMeter.ngm
+RateMeter.pcf
+RateMeter.nc1
+RateMeter.mrp
+RateMeter_map.mrp
+RateMeter.mdf
+__projnav/map.log
+RateMeter.cmd_log
+MAP_NO_GUIDE_FILE_CPF "RateMeter"
+# Implmentation : Post-Place & Route Timing
+__projnav/ncdTOtwr_tcl.rsp
+__projnav/posttrc.log
+RateMeter.twr
+RateMeter.twx
+RateMeter.tsi
+RateMeter.cmd_log
+# Implmentation : Place & Route
+__projnav/nc1TOncd_tcl.rsp
+RateMeter.ncd
+RateMeter.par
+RateMeter.pad
+RateMeter_pad.txt
+RateMeter_pad.csv
+RateMeter.pad_txt
+RateMeter.dly
+reportgen.log
+RateMeter.xpi
+RateMeter.grf
+RateMeter.itr
+RateMeter_last_par.ncd
+__projnav/par.log
+RateMeter.placed_ncd_tracker
+RateMeter.routed_ncd_tracker
+RateMeter.cmd_log
+PAR_NO_GUIDE_FILE_CPF "RateMeter"
+# Generate Programming File
+__projnav/RateMeter_ncdTOut_tcl.rsp
+__projnav/bitgen.rsp
+bitgen.ut
+RateMeter.ut
+# Generate Programming File
+RateMeter.bgn
+RateMeter.rbt
+RateMeter.ll
+RateMeter.msk
+RateMeter.drc
+RateMeter.nky
+RateMeter.bit
+RateMeter.bin
+RateMeter.isc
+RateMeter.cmd_log
+# Generate PROM, ACE, or JTAG File
+RateMeter.ace
+xilinx.sys
+RateMeter.mpm
+RateMeter.mcs
+RateMeter.prm
+RateMeter.dst
+RateMeter.exo
+RateMeter.tek
+RateMeter.hex
+RateMeter.svf
+RateMeter.stapl
+impact.cmd
+_impact.log
+_impact.cmd
+# Configure Device (iMPACT)
+RateMeter.prm
+RateMeter.isc
+RateMeter.svf
+xilinx.sys
+RateMeter.mcs
+RateMeter.exo
+RateMeter.hex
+RateMeter.tek
+RateMeter.dst
+RateMeter.dst_compressed
+RateMeter.mpm
+_impact.cmd
+_impact.log
+# Configure Device (iMPACT)
+RateMeter.prm
+RateMeter.isc
+RateMeter.svf
+xilinx.sys
+RateMeter.mcs
+RateMeter.exo
+RateMeter.hex
+RateMeter.tek
+RateMeter.dst
+RateMeter.dst_compressed
+RateMeter.mpm
+_impact.cmd
+_impact.log
+# Configure Device (iMPACT)
+RateMeter.prm
+RateMeter.isc
+RateMeter.svf
+xilinx.sys
+RateMeter.mcs
+RateMeter.exo
+RateMeter.hex
+RateMeter.tek
+RateMeter.dst
+RateMeter.dst_compressed
+RateMeter.mpm
+_impact.cmd
+_impact.log
+# XST (Creating Lso File) : 
+RateMeter.lso
+# xst flow : RunXST
+RateMeter.syr
+RateMeter.prj
+RateMeter.sprj
+RateMeter.ana
+RateMeter.stx
+RateMeter.cmd_log
+RateMeter.ngc
+RateMeter.ngr
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+RateMeter.ngd
+RateMeter_ngdbuild.nav
+RateMeter.bld
+freq.ucf.untf
+RateMeter.cmd_log
+# Implementation : Map
+RateMeter_map.ncd
+RateMeter.ngm
+RateMeter.pcf
+RateMeter.nc1
+RateMeter.mrp
+RateMeter_map.mrp
+RateMeter.mdf
+__projnav/map.log
+RateMeter.cmd_log
+MAP_NO_GUIDE_FILE_CPF "RateMeter"
+# Implmentation : Post-Place & Route Timing
+__projnav/ncdTOtwr_tcl.rsp
+__projnav/posttrc.log
+RateMeter.twr
+RateMeter.twx
+RateMeter.tsi
+RateMeter.cmd_log
+# Implmentation : Place & Route
+__projnav/nc1TOncd_tcl.rsp
+RateMeter.ncd
+RateMeter.par
+RateMeter.pad
+RateMeter_pad.txt
+RateMeter_pad.csv
+RateMeter.pad_txt
+RateMeter.dly
+reportgen.log
+RateMeter.xpi
+RateMeter.grf
+RateMeter.itr
+RateMeter_last_par.ncd
+__projnav/par.log
+RateMeter.placed_ncd_tracker
+RateMeter.routed_ncd_tracker
+RateMeter.cmd_log
+PAR_NO_GUIDE_FILE_CPF "RateMeter"
+# Generate Programming File
+__projnav/RateMeter_ncdTOut_tcl.rsp
+__projnav/bitgen.rsp
+bitgen.ut
+RateMeter.ut
+# Generate Programming File
+RateMeter.bgn
+RateMeter.rbt
+RateMeter.ll
+RateMeter.msk
+RateMeter.drc
+RateMeter.nky
+RateMeter.bit
+RateMeter.bin
+RateMeter.isc
+RateMeter.cmd_log
+# Generate PROM, ACE, or JTAG File
+RateMeter.ace
+xilinx.sys
+RateMeter.mpm
+RateMeter.mcs
+RateMeter.prm
+RateMeter.dst
+RateMeter.exo
+RateMeter.tek
+RateMeter.hex
+RateMeter.svf
+RateMeter.stapl
+impact.cmd
+_impact.log
+_impact.cmd
+# XST (Creating Lso File) : 
+RateMeter.lso
+# xst flow : RunXST
+RateMeter.syr
+RateMeter.prj
+RateMeter.sprj
+RateMeter.ana
+RateMeter.stx
+RateMeter.cmd_log
+RateMeter.ngc
+RateMeter.ngr
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+RateMeter.ngd
+RateMeter_ngdbuild.nav
+RateMeter.bld
+freq.ucf.untf
+RateMeter.cmd_log
+# Implementation : Map
+RateMeter_map.ncd
+RateMeter.ngm
+RateMeter.pcf
+RateMeter.nc1
+RateMeter.mrp
+RateMeter_map.mrp
+RateMeter.mdf
+__projnav/map.log
+RateMeter.cmd_log
+MAP_NO_GUIDE_FILE_CPF "RateMeter"
+# Implmentation : Post-Place & Route Timing
+__projnav/ncdTOtwr_tcl.rsp
+__projnav/posttrc.log
+RateMeter.twr
+RateMeter.twx
+RateMeter.tsi
+RateMeter.cmd_log
+# Implmentation : Place & Route
+__projnav/nc1TOncd_tcl.rsp
+RateMeter.ncd
+RateMeter.par
+RateMeter.pad
+RateMeter_pad.txt
+RateMeter_pad.csv
+RateMeter.pad_txt
+RateMeter.dly
+reportgen.log
+RateMeter.xpi
+RateMeter.grf
+RateMeter.itr
+RateMeter_last_par.ncd
+__projnav/par.log
+RateMeter.placed_ncd_tracker
+RateMeter.routed_ncd_tracker
+RateMeter.cmd_log
+PAR_NO_GUIDE_FILE_CPF "RateMeter"
+# Generate Programming File
+__projnav/RateMeter_ncdTOut_tcl.rsp
+__projnav/bitgen.rsp
+bitgen.ut
+RateMeter.ut
+# Generate Programming File
+RateMeter.bgn
+RateMeter.rbt
+RateMeter.ll
+RateMeter.msk
+RateMeter.drc
+RateMeter.nky
+RateMeter.bit
+RateMeter.bin
+RateMeter.isc
+RateMeter.cmd_log
+# Configure Device (iMPACT)
+RateMeter.prm
+RateMeter.isc
+RateMeter.svf
+xilinx.sys
+RateMeter.mcs
+RateMeter.exo
+RateMeter.hex
+RateMeter.tek
+RateMeter.dst
+RateMeter.dst_compressed
+RateMeter.mpm
+_impact.cmd
+_impact.log
+# XST (Creating Lso File) : 
+RateMeter.lso
+# xst flow : RunXST
+RateMeter.syr
+RateMeter.prj
+RateMeter.sprj
+RateMeter.ana
+RateMeter.stx
+RateMeter.cmd_log
+RateMeter.ngc
+RateMeter.ngr
+# Implmentation : Translate
+__projnav/ngdbuild.err
+__projnav/ednTOngd_tcl.rsp
+f:\ratemeter\genfreq/_ngo
+RateMeter.ngd
+RateMeter_ngdbuild.nav
+RateMeter.bld
+freq.ucf.untf
+RateMeter.cmd_log
+# Implementation : Map
+RateMeter_map.ncd
+RateMeter.ngm
+RateMeter.pcf
+RateMeter.nc1
+RateMeter.mrp
+RateMeter_map.mrp
+RateMeter.mdf
+__projnav/map.log
+RateMeter.cmd_log
+MAP_NO_GUIDE_FILE_CPF "RateMeter"
+# Implmentation : Post-Place & Route Timing
+__projnav/ncdTOtwr_tcl.rsp
+__projnav/posttrc.log
+RateMeter.twr
+RateMeter.twx
+RateMeter.tsi
+RateMeter.cmd_log
+# Implmentation : Place & Route
+__projnav/nc1TOncd_tcl.rsp
+RateMeter.ncd
+RateMeter.par
+RateMeter.pad
+RateMeter_pad.txt
+RateMeter_pad.csv
+RateMeter.pad_txt
+RateMeter.dly
+reportgen.log
+RateMeter.xpi
+RateMeter.grf
+RateMeter.itr
+RateMeter_last_par.ncd
+__projnav/par.log
+RateMeter.placed_ncd_tracker
+RateMeter.routed_ncd_tracker
+RateMeter.cmd_log
+PAR_NO_GUIDE_FILE_CPF "RateMeter"
+# Generate Programming File
+__projnav/RateMeter_ncdTOut_tcl.rsp
+__projnav/bitgen.rsp
+bitgen.ut
+RateMeter.ut
+# Generate Programming File
+RateMeter.bgn
+RateMeter.rbt
+RateMeter.ll
+RateMeter.msk
+RateMeter.drc
+RateMeter.nky
+RateMeter.bit
+RateMeter.bin
+RateMeter.isc
+RateMeter.cmd_log
+# Generate PROM, ACE, or JTAG File
+RateMeter.ace
+xilinx.sys
+RateMeter.mpm
+RateMeter.mcs
+RateMeter.prm
+RateMeter.dst
+RateMeter.exo
+RateMeter.tek
+RateMeter.hex
+RateMeter.svf
+RateMeter.stapl
+impact.cmd
+_impact.log
+_impact.cmd
+# Configure Device (iMPACT)
+RateMeter.prm
+RateMeter.isc
+RateMeter.svf
+xilinx.sys
+RateMeter.mcs
+RateMeter.exo
+RateMeter.hex
+RateMeter.tek
+RateMeter.dst
+RateMeter.dst_compressed
+RateMeter.mpm
+_impact.cmd
+_impact.log

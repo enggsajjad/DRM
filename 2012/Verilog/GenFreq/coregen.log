@@ -1,0 +1,21 @@
+# Xilinx CORE Generator 6.1i
+# User = sajjad
+Initializing default project...
+Loading plug-ins...
+All runtime messages will be recorded in F:\RateMeter\GenFreq\coregen.log
+# busformat=BusFormatAngleBracketNotRipped
+# designflow=VHDL
+# expandedprojectpath=F:\RateMeter\GenFreq
+# flowvendor=Foundation_iSE
+# formalverification=None
+# simulationoutputproducts=VHDL
+# xilinxfamily=Virtex2
+# outputoption=DesignFlow
+# overwritefiles=Default
+# simvendor=ModelSim
+# expandedprojectpath=F:\RateMeter\GenFreq
+SETPROJECT .
+Set current Project to F:\RateMeter\GenFreq
+SET BusFormat = BusFormatAngleBracketNotRipped
+SETXIPCPORTHOST 1066
+XIPCPJSENDCORES spartan2

@@ -1,0 +1,11 @@
+NET "clk" 				LOC = "P77";     
+NET "sw" 					LOC = "P36";  
+NET "dipsw<0>" 		LOC = "P188";
+NET "dipsw<1>" 		LOC = "P189";
+NET "dipsw<2>" 		LOC = "P192";
+
+NET "fgen"	 			LOC = "P74";		#J-18/73
+NET "fgen_2us"	 	LOC = "P75";		#J-18/75
+NET "freq_1us" 		LOC = "P83";		#J-18/77
+NET "freq_2us" 		LOC = "P86";		#J-18/79
+NET "noise" 			LOC = "P84";		#J-18/80

@@ -1,0 +1,23 @@
+Release 6.1i - ngdbuild G.23
+Copyright (c) 1995-2003 Xilinx, Inc.  All rights reserved.
+
+Command Line: ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf
+-p xc2s200-pq208-5 freq.ngc freq.ngd 
+
+Reading NGO file "F:/RateMeter/GenFreq/freq.ngc" ...
+Reading component libraries for design expansion...
+
+Annotating constraints to design from file "freq.ucf" ...
+
+Checking timing specifications ...
+Checking expanded design ...
+
+NGDBUILD Design Results Summary:
+  Number of errors:     0
+  Number of warnings:   0
+
+Total memory usage is 39264 kilobytes
+
+Writing NGD file "freq.ngd" ...
+
+Writing NGDBUILD log file "freq.bld"...

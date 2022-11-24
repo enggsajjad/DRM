@@ -1,0 +1,32 @@
+xst -intstyle ise -ifn __projnav/RateMeter.xst -ofn RateMeter.syr
+xst -intstyle ise -ifn __projnav/RateMeter.xst -ofn RateMeter.syr
+xst -intstyle ise -ifn __projnav/RateMeter.xst -ofn RateMeter.syr
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -i  -p xc2s200-pq208-5 RateMeter.ngc RateMeter.ngd
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o RateMeter_map.ncd RateMeter.ngd RateMeter.pcf
+par -w -intstyle ise -ol std -t 1 RateMeter_map.ncd RateMeter.ncd RateMeter.pcf
+trce -intstyle ise -e 3 -l 3 -xml RateMeter RateMeter.ncd -o RateMeter.twr RateMeter.pcf
+bitgen -intstyle ise -f RateMeter.ut RateMeter.ncd
+xst -intstyle ise -ifn __projnav/RateMeter.xst -ofn RateMeter.syr
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 RateMeter.ngc RateMeter.ngd
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o RateMeter_map.ncd RateMeter.ngd RateMeter.pcf
+par -w -intstyle ise -ol std -t 1 RateMeter_map.ncd RateMeter.ncd RateMeter.pcf
+trce -intstyle ise -e 3 -l 3 -xml RateMeter RateMeter.ncd -o RateMeter.twr RateMeter.pcf
+bitgen -intstyle ise -f RateMeter.ut RateMeter.ncd
+xst -intstyle ise -ifn __projnav/RateMeter.xst -ofn RateMeter.syr
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 RateMeter.ngc RateMeter.ngd
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o RateMeter_map.ncd RateMeter.ngd RateMeter.pcf
+par -w -intstyle ise -ol std -t 1 RateMeter_map.ncd RateMeter.ncd RateMeter.pcf
+trce -intstyle ise -e 3 -l 3 -xml RateMeter RateMeter.ncd -o RateMeter.twr RateMeter.pcf
+bitgen -intstyle ise -f RateMeter.ut RateMeter.ncd
+xst -intstyle ise -ifn __projnav/RateMeter.xst -ofn RateMeter.syr
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 RateMeter.ngc RateMeter.ngd
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o RateMeter_map.ncd RateMeter.ngd RateMeter.pcf
+par -w -intstyle ise -ol std -t 1 RateMeter_map.ncd RateMeter.ncd RateMeter.pcf
+trce -intstyle ise -e 3 -l 3 -xml RateMeter RateMeter.ncd -o RateMeter.twr RateMeter.pcf
+bitgen -intstyle ise -f RateMeter.ut RateMeter.ncd
+xst -intstyle ise -ifn __projnav/RateMeter.xst -ofn RateMeter.syr
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 RateMeter.ngc RateMeter.ngd
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o RateMeter_map.ncd RateMeter.ngd RateMeter.pcf
+par -w -intstyle ise -ol std -t 1 RateMeter_map.ncd RateMeter.ncd RateMeter.pcf
+trce -intstyle ise -e 3 -l 3 -xml RateMeter RateMeter.ncd -o RateMeter.twr RateMeter.pcf
+bitgen -intstyle ise -f RateMeter.ut RateMeter.ncd

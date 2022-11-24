@@ -1,0 +1,49 @@
+(ExpressProject "DRM_TEST"
+  (ProjectVersion "19981106")
+  (ProjectType "PCB")
+  (Folder "Design Resources"
+    (Folder "Library")
+    (NoModify)
+    (File ".\drm_test.dsn"
+      (Type "Schematic Design"))
+    (BuildFileAddedOrDeleted "x")
+    (CompileFileAddedOrDeleted "x")
+    (Board_sim_option "VHDL_flow"))
+  (Folder "Outputs")
+  (Folder "Referenced Projects")
+  (PartMRUSelector
+    ("HEADER 2"
+      (FullPartName "HEADER 2.Normal")
+      (LibraryName "C:\ORCAD\ORCAD_10.5\TOOLS\CAPTURE\LIBRARY\CONNECTOR.OLB")
+      (DeviceIndex "0"))
+    ("SW KEY-SPST"
+      (FullPartName "SW KEY-SPST.Normal")
+      (LibraryName "C:\ORCAD\ORCAD_10.5\TOOLS\CAPTURE\LIBRARY\DISCRETE.OLB")
+      (DeviceIndex "0"))
+    (VPULSE
+      (FullPartName "VPULSE.Normal")
+      (LibraryName
+         "C:\ORCAD\ORCAD_10.5\TOOLS\CAPTURE\LIBRARY\PSPICE\SOURCE.OLB")
+      (DeviceIndex "0")))
+  (LastUsedLibraryBrowseDirectory "C:\OrCAD\OrCAD_10.5\tools\capture\library")
+  (GlobalState
+    (FileView
+      (Path "Design Resources")
+      (Path "Design Resources"
+         "E:\P\DRM\2012\DRM-3.5 CD May2012\PCB Design\Tester\Schematics\drm_test.dsn")
+      (Path "Design Resources"
+         "E:\P\DRM\2012\DRM-3.5 CD May2012\PCB Design\Tester\Schematics\drm_test.dsn"
+         "SCHEMATIC1")
+      (Path "Design Resources"
+         "E:\P\DRM\2012\DRM-3.5 CD May2012\PCB Design\Tester\Schematics\drm_test.dsn"
+         "Design Cache")
+      (Select "Design Resources"
+         "E:\P\DRM\2012\DRM-3.5 CD May2012\PCB Design\Tester\Schematics\drm_test.dsn"
+         "SCHEMATIC1" "PAGE1"))
+    (HierarchyView)
+    (Doc
+      (Type "COrCapturePMDoc")
+      (Frame
+        (Placement "44 2 3 -1 -1 -4 -34 0 200 0 506"))
+      (Tab 0)))
+  (MPSSessionName "Sajjad Hussain"))

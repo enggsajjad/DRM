@@ -1,0 +1,321 @@
+Release 6.1i - xst G.23
+Copyright (c) 1995-2003 Xilinx, Inc.  All rights reserved.
+--> Parameter TMPDIR set to __projnav
+CPU : 0.01 / 0.34 s | Elapsed : 0.00 / 1.00 s
+ 
+--> Parameter xsthdpdir set to ./xst
+CPU : 0.00 / 0.34 s | Elapsed : 0.00 / 1.00 s
+ 
+--> Reading design: RateMeter.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Compilation
+  3) HDL Analysis
+  4) HDL Synthesis
+     4.1) HDL Synthesis Report
+  5) Advanced HDL Synthesis
+  6) Low Level Synthesis
+  7) Final Report
+     7.1) Device utilization summary
+     7.2) TIMING REPORT
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : RateMeter.prj
+Input Format                       : mixed
+Ignore Synthesis Constraint File   : NO
+Verilog Include Directory          : 
+
+---- Target Parameters
+Output File Name                   : RateMeter
+Output Format                      : NGC
+Target Device                      : xc2s200-5-pq208
+
+---- Source Options
+Top Module Name                    : RateMeter
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+FSM Style                          : lut
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+ROM Style                          : Auto
+Mux Extraction                     : YES
+Mux Style                          : Auto
+Decoder Extraction                 : YES
+Priority Encoder Extraction        : YES
+Shift Register Extraction          : YES
+Logical Shifter Extraction         : YES
+XOR Collapsing                     : YES
+Resource Sharing                   : YES
+Multiplier Style                   : lut
+Automatic Register Balancing       : No
+
+---- Target Options
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 100
+Add Generic Clock Buffer(BUFG)     : 4
+Register Duplication               : YES
+Equivalent register Removal        : YES
+Slice Packing                      : YES
+Pack IO Registers into IOBs        : auto
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Keep Hierarchy                     : NO
+Global Optimization                : AllClockNets
+RTL Output                         : Yes
+Write Timing Constraints           : NO
+Hierarchy Separator                : _
+Bus Delimiter                      : <>
+Case Specifier                     : maintain
+Slice Utilization Ratio            : 100
+Slice Utilization Ratio Delta      : 5
+
+---- Other Options
+lso                                : RateMeter.lso
+Read Cores                         : YES
+cross_clock_analysis               : NO
+verilog2001                        : YES
+Optimize Instantiated Primitives   : NO
+
+=========================================================================
+
+WARNING:Xst:1885 - LSO file is empty, default list of libraries is used
+
+=========================================================================
+*                          HDL Compilation                              *
+=========================================================================
+Compiling source file "RateMeter.v"
+Module <RateMeter> compiled
+No errors in compilation
+Analysis of file <RateMeter.prj> succeeded.
+ 
+
+=========================================================================
+*                            HDL Analysis                               *
+=========================================================================
+Analyzing top module <RateMeter>.
+Module <RateMeter> is correct for synthesis.
+ 
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Synthesizing Unit <RateMeter>.
+    Related source file is RateMeter.v.
+    Found 1-bit xor2 for signal <fgen_2us>.
+    Found 1-bit xor2 for signal <freq_2us>.
+    Found 16-bit up counter for signal <count>.
+    Found 32-bit up counter for signal <count1>.
+    Found 1-bit 8-to-1 multiplexer for signal <freq>.
+    Found 3-bit register for signal <shift>.
+    Found 3-bit register for signal <shift1>.
+    Found 2-bit register for signal <shift2>.
+    Found 3-bit register for signal <shift3>.
+    Summary:
+	inferred   2 Counter(s).
+	inferred  11 D-type flip-flop(s).
+	inferred   1 Multiplexer(s).
+Unit <RateMeter> synthesized.
+
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# Registers                        : 11
+  1-bit register                   : 11
+# Counters                         : 2
+  16-bit up counter                : 1
+  32-bit up counter                : 1
+# Multiplexers                     : 1
+  1-bit 8-to-1 multiplexer         : 1
+# Xors                             : 2
+  1-bit xor2                       : 2
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+WARNING:Xst:1291 - FF/Latch <count1_30> is unconnected in block <RateMeter>.
+WARNING:Xst:1291 - FF/Latch <count1_31> is unconnected in block <RateMeter>.
+WARNING:Xst:1291 - FF/Latch <count1_29> is unconnected in block <RateMeter>.
+
+Optimizing unit <RateMeter> ...
+Loading device for application Xst from file 'v200.nph' in environment C:/Xilinx.
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Register shift1_0 equivalent to shift2_0 has been removed
+Register shift1_1 equivalent to shift2_1 has been removed
+Found area constraint ratio of 100 (+ 5) on block RateMeter, actual ratio is 1.
+
+=========================================================================
+*                            Final Report                               *
+=========================================================================
+Final Results
+RTL Top Level Output File Name     : RateMeter.ngr
+Top Level Output File Name         : RateMeter
+Output Format                      : NGC
+Optimization Goal                  : Speed
+Keep Hierarchy                     : NO
+
+Design Statistics
+# IOs                              : 10
+
+Macro Statistics :
+# Registers                        : 13
+#      1-bit register              : 11
+#      32-bit register             : 2
+# Multiplexers                     : 1
+#      1-bit 8-to-1 multiplexer    : 1
+# Adders/Subtractors               : 2
+#      32-bit adder                : 2
+
+Cell Usage :
+# BELS                             : 155
+#      GND                         : 1
+#      LUT1                        : 45
+#      LUT2                        : 3
+#      LUT3                        : 8
+#      LUT3_L                      : 1
+#      LUT4                        : 6
+#      LUT4_L                      : 1
+#      MUXCY                       : 43
+#      MUXF5                       : 2
+#      MUXF6                       : 1
+#      VCC                         : 1
+#      XORCY                       : 43
+# FlipFlops/Latches                : 54
+#      FD                          : 38
+#      FDRE                        : 16
+# Clock Buffers                    : 1
+#      BUFGP                       : 1
+# IO Buffers                       : 9
+#      IBUF                        : 5
+#      OBUF                        : 4
+=========================================================================
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 2s200pq208-5 
+
+ Number of Slices:                      42  out of   2352     1%  
+ Number of Slice Flip Flops:            54  out of   4704     1%  
+ Number of 4 input LUTs:                64  out of   4704     1%  
+ Number of bonded IOBs:                  9  out of    144     6%  
+ Number of GCLKs:                        1  out of      4    25%  
+
+
+=========================================================================
+TIMING REPORT
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+clk                                | BUFGP                  | 54    |
+-----------------------------------+------------------------+-------+
+
+Timing Summary:
+---------------
+Speed Grade: -5
+
+   Minimum period: 9.717ns (Maximum Frequency: 102.912MHz)
+   Minimum input arrival time before clock: 4.681ns
+   Maximum output required time after clock: 15.871ns
+   Maximum combinational path delay: No path found
+
+Timing Detail:
+--------------
+All values displayed in nanoseconds (ns)
+
+-------------------------------------------------------------------------
+Timing constraint: Default period analysis for Clock 'clk'
+Delay:               9.717ns (Levels of Logic = 3)
+  Source:            count_7 (FF)
+  Destination:       count_14 (FF)
+  Source Clock:      clk rising
+  Destination Clock: clk rising
+
+  Data Path: count_7 to count_14
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDRE:C->Q             2   1.292   1.340  count_7 (count_7)
+     LUT3:I0->O            2   0.653   1.340  SF12131 (SF1213)
+     LUT3_L:I2->LO         1   0.653   0.100  count_ClkEn_INV53 (CHOICE126)
+     LUT3:I2->O           16   0.653   2.800  count_ClkEn_INV65 (count_0_N157)
+     FDRE:CE                   0.886          count_0
+    ----------------------------------------
+    Total                      9.717ns (4.137ns logic, 5.580ns route)
+                                       (42.6% logic, 57.4% route)
+
+-------------------------------------------------------------------------
+Timing constraint: Default OFFSET IN BEFORE for Clock 'clk'
+Offset:              4.681ns (Levels of Logic = 4)
+  Source:            dipsw<0> (PAD)
+  Destination:       shift2_0 (FF)
+  Destination Clock: clk rising
+
+  Data Path: dipsw<0> to shift2_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             4   0.924   1.600  dipsw_0_IBUF (dipsw_0_IBUF)
+     LUT3:I0->O            1   0.653   0.000  Mmux_freq_inst_lut3_01 (Mmux_freq__net0)
+     MUXF5:I0->O           1   0.375   0.000  Mmux_freq_inst_mux_f5_0 (Mmux_freq__net2)
+     MUXF6:I0->O           1   0.376   0.000  Mmux_freq_inst_mux_f6_0 (freq)
+     FD:D                      0.753          shift2_0
+    ----------------------------------------
+    Total                      4.681ns (3.081ns logic, 1.600ns route)
+                                       (65.8% logic, 34.2% route)
+
+-------------------------------------------------------------------------
+Timing constraint: Default OFFSET OUT AFTER for Clock 'clk'
+Offset:              15.871ns (Levels of Logic = 5)
+  Source:            count_10 (FF)
+  Destination:       fgen_2us (PAD)
+  Source Clock:      clk rising
+
+  Data Path: count_10 to fgen_2us
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDRE:C->Q             3   1.292   1.480  count_10 (count_10)
+     LUT4:I0->O            1   0.653   1.150  SF121518 (CHOICE96)
+     LUT2:I0->O            1   0.653   1.150  SF121524 (CHOICE100)
+     LUT4:I0->O            3   0.653   1.480  SF121534 (SF1215)
+     LUT3:I1->O            1   0.653   1.150  Mxor_fgen_2us_Result1 (fgen_2us_OBUF)
+     OBUF:I->O                 5.557          fgen_2us_OBUF (fgen_2us)
+    ----------------------------------------
+    Total                     15.871ns (9.461ns logic, 6.410ns route)
+                                       (59.6% logic, 40.4% route)
+
+=========================================================================
+CPU : 2.53 / 3.16 s | Elapsed : 3.00 / 4.00 s
+ 
+--> 
+
+Total memory usage is 59060 kilobytes
+
+

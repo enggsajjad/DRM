@@ -1,0 +1,2268 @@
+C51 COMPILER V6.11.4C,  MAIN                      05/29/112  09:26:42  PAGE  1
+
+QCW(0x00002D1A)
+
+WIN32 C51 COMPILER V6.11.4C, COMPILATION OF MODULE MAIN      
+OBJECT MODULE PLACED IN e:\p\drm\2012\rm_pca4.2\main.obj
+COMPILER INVOKED BY: C51.EXE E:\P\DRM\2012\RM_PCA4.2\MAIN.C OBJECT(E:\P\DRM\2012
+            -\RM_PCA4.2\MAIN.OBJ) PIN(C:\FSI\INC) NOAM PR(E:\P\DRM\2012\RM_PCA4.
+            -2\MAIN.LST) CD SB OE(1) SM FP(IEEE,STANDARD) PW(80) 
+
+stmt level    source
+   1          /*				Digital Rate Meter Ranging
+   2                      Programmer: Sajjad Hussain S.E.
+   3                      Crystal Frequency	=	24 MHz
+   4                      Internal Clock		=	4  MHz
+   5                      Micocontroller		= 	AT89C51RC2
+   6                      Dated: 	30-03-2010
+   7                      Modification:	09-08-2012
+   8                      24-05-2012	Calibration
+   9                      28-05-2012	Averaging, Frequnecy Comparision instead of
+            - Counter
+  10          */
+  11          #include "at89c51rc2.h"
+  12          #include "ratemeter.h"
+  13          #include <intrins.h>
+  14          #include <math.h>
+  15          // Main Program Starts Here
+  16          void main()
+  17          {
+  18   1      	unsigned int dly;
+  19   1      	RELAY1_S2 = 1;//0
+  20   1      	RELAY2_MF = 0;
+  21   1      	RELAY3_S1 = 1;//0
+  22   1      	
+  23   1      
+  24   1      	//CSDAC = 1;
+  25   1      	for (dly=0;dly<30000;dly++)
+  26   1      		_nop_();
+  27   1      
+  28   1      	CKCON0 = 0x01;				// 6 Clock Intstruction Cycle
+  29   1      	AUXR 	= AUXR | 0xFD;		// xram
+  30   1      	// Default Threshold (Counts)
+  31   1      	Thresh[0] = 10.0;//400000;		// equals to 10 Hz
+  32   1      	Thresh[1] = 100.0;//40000;			// equals to 100 Hz
+  33   1      	// Initilize
+  34   1      	T2MOD = 0x00;
+  35   1      	EA = 0;
+  36   1      	TMOD = 0x11;
+  37   1      	P2 = 0x00;
+  38   1         // Initial Screen
+  39   1      	for (dly=0;dly<50;dly++)
+  40   1      		Delay10ms();
+  41   1      	LcdInit();
+  42   1      	LcdGotoXY(1,1);
+  43   1      	LcdWriteStr("IMP/S: 000.000");
+  44   1      	LcdGotoXY(2,3);
+  45   1      	LcdWriteStr("Th1: 010.000");
+  46   1      	LcdGotoXY(3,3);
+  47   1      	LcdWriteStr("Th2: 100.000");
+  48   1      	LcdGotoXY(4,1);
+  49   1      	LcdWriteStr("No Pulse, MF");
+  50   1      	LcdGotoXY(4,15);
+  51   1      	LcdWriteStr("01");
+  52   1      	
+  53   1      	for (dly=0;dly<50;dly++)
+  54   1      		Delay10ms();
+  55   1      	// Timer 1 in  mode 2 with hardware gate
+  56   1      	TMOD =0xA1;
+  57   1      	
+  58   1      	TH1 = 0x00;	
+  59   1      	TL1 = 0x00;	
+  60   1      	TR1=1;		
+  61   1      		
+  62   1         // Set Timer2 used for 12.5 msec @ 4MHz
+  63   1         // Used to Update display every One Second	(12.5 msec * 80 = 10
+            -00 msec)
+  64   1         T2MOD = 0x01;
+  65   1      	T2CON = 0x00;
+  66   1      	TH2 = 0x3C;TL2 = 0xB0;
+  67   1      	RCAP2H = 0x3C;RCAP2L = 0xB0;
+  68   1      	TR2 = 1;
+  69   1      	ET2 = 1;
+  70   1      	EA = 1;
+  71   1      	// Set PCA Module and PCA Interrupt
+  72   1      	CCON = 0x00;
+  73   1      	CMOD = 0x01;
+  74   1      	CH = 0;
+  75   1      	CL = 0;
+  76   1      	CCAPM0 = 0x11;// Capture -ve Edge
+  77   1      	CR = 1;
+  78   1      	EC = 1;
+  79   1      	//	Keypad Interrupt
+  80   1      	EX0 = 1;
+  81   1      	IT0 = 1;
+  82   1      	// Default led's and relays position
+  83   1      
+  84   1      	LED_MF  =  LED_ON;
+  85   1      	LED_AL1 =  LED_OFF;
+  86   1      	LED_AL2 =  LED_OFF;
+  87   1      	LED_CC  =  LED_OFF;
+  88   1      	RELAY1_S2 = 1;//0
+  89   1      	RELAY2_MF = 0;
+  90   1      	RELAY3_S1 = 1;//0
+  91   1       	isInit = 1;
+  92   1      	//Running Forever
+  93   1      	while(isInit)
+  94   1      	{	
+  95   2      		switch(state)
+  96   2      		{
+  97   3      		 	case 8:
+  98   3      		 		next = 9;
+  99   3      		 		break;
+ 100   3      		 	case 9:
+ 101   3      		 		next = 10;
+ 102   3      		 		break;
+ 103   3      		 	case 10:
+ 104   3      		 		state = 11;
+ 105   3      		 		next = 11;
+ 106   3      		 		break;
+ 107   3      		 	case 11:
+ 108   3      				if(PulseWidth>5)	// > 2usec
+ 109   3      				{
+ 110   4      					TF16_Old = TF16; 
+ 111   4      					TF16 = 0;
+ 112   4      					CL = 0; CH = 0;
+ 113   4      					Capture16 = (capHigh<<8) + capLow;
+ 114   4      					Count32 = TF16_Old;
+ 115   4      					Count32 = (Count32<<16) + Capture16;
+ 116   4      				}
+ 117   3      				state = 12;
+ 118   3      		 		break;
+ 119   3      		 	case 12:
+ 120   3      		 		if(CntMSec==80) //One Second
+ 121   3      		 		{
+ 122   4      					CntMSec = 0;
+ 123   4      					state = 13;
+ 124   4      				}
+ 125   3      				break;
+ 126   3      			case 13:
+ 127   3      				// Calculate Running Counter
+ 128   3      				rCapture16 = (CH<<8) + CL;
+ 129   3      				rCount32 = TF16;
+ 130   3      				rCount32 = (rCount32<<16) + rCapture16;
+ 131   3      				
+ 132   3      				LcdGotoXY(1,7);LcdWriteStr("        ");
+ 133   3      				if(Count32 < rCount32)//	Handling frequncy less than 1Hz
+ 134   3      					Count32 = rCount32;
+ 135   3      				// Check the Edge 29 for MF
+ 136   3      				command = 0;
+ 137   3      				if(Edge29)// Pressure Signal Absent 
+ 138   3      					command = command | 0x01;
+ 139   3      				else // Pressure Signal is Pressent
+ 140   3      				{	
+ 141   4      					command = command & 0xFE;
+ 142   4      				}
+ 143   3      				
+ 144   3      				LcdGotoXY(1,7); CountsToFreq(Count32);
+ 145   3      				LcdGotoXY(4,1);
+ 146   3      				state = command;
+ 147   3      				break;
+ 148   3      		 	case 0:
+ 149   3      		 		LcdWriteStr("No Alarm     ");
+ 150   3      		 		//Putc(command+48);
+ 151   3      		 		LED_MF =  LED_OFF;
+ 152   3      				LED_AL1 =  LED_OFF;
+ 153   3      				LED_AL2 =  LED_OFF;
+ 154   3      				RELAY1_S2 = 1;	RELAY2_MF = 1;	RELAY3_S1 = 1;
+ 155   3      				state = 12;
+ 156   3      		 		break;
+ 157   3      		 	case 1:
+ 158   3      		 		LcdWriteStr("No Alarm, MF ");
+ 159   3      		 		//Putc(command+48);
+ 160   3      				LED_AL1 =  LED_OFF;
+ 161   3      				LED_AL2 =  LED_OFF;
+ 162   3      				LED_MF  =  LED_ON;
+ 163   3      				RELAY1_S2 = 1;	RELAY2_MF = 0;	RELAY3_S1 = 1;
+ 164   3      				//state = 8;
+ 165   3      				state = 12;
+ 166   3      		 		break;
+ 167   3      		 	case 2:
+ 168   3      		 		LcdWriteStr("Alarm-1     ");
+ 169   3      		 		//Putc(command+48);
+ 170   3      		 		LED_MF =  LED_OFF;
+ 171   3      				LED_AL1 =  LED_ON;
+ 172   3      				LED_AL2 =  LED_OFF;
+ 173   3      				RELAY1_S2 = 1;	RELAY2_MF = 1;	RELAY3_S1 = 0;
+ 174   3      				state = 12;
+ 175   3      		 		break;
+ 176   3      		 	case 3:
+ 177   3      		 		LcdWriteStr("Alarm-1, MF ");
+ 178   3      		 		//Putc(command+48);
+ 179   3      				LED_MF  =  LED_ON;
+ 180   3      				LED_AL1 =  LED_ON;
+ 181   3      				LED_AL2 =  LED_OFF;
+ 182   3      				RELAY1_S2 = 1;	RELAY2_MF = 0;	RELAY3_S1 = 0;//011
+ 183   3      				state = 12;
+ 184   3      		 		break;
+ 185   3      		 	case 4:
+ 186   3      		 	case 6:
+ 187   3      		 		LcdWriteStr("Alarm-2     ");
+ 188   3      		 		//Putc(command+48);
+ 189   3      				LED_MF  =  LED_OFF;
+ 190   3      				LED_AL1 =  LED_ON;
+ 191   3      				LED_AL2 =  LED_ON;
+ 192   3      				RELAY1_S2 = 0;	RELAY2_MF = 1;	RELAY3_S1 = 0;
+ 193   3      				state = 12;
+ 194   3      		 		break;
+ 195   3      		 	case 5:
+ 196   3      		 	case 7:
+ 197   3      		 		LcdWriteStr("Alarm-2, MF ");
+ 198   3      		 		//Putc(command+48);
+ 199   3      				LED_MF  =  LED_ON;
+ 200   3      				LED_AL1 =  LED_ON;
+ 201   3      				LED_AL2 =  LED_ON;
+ 202   3      				RELAY1_S2 = 0;	RELAY2_MF = 0;	RELAY3_S1 = 0;
+ 203   3      				state = 12;
+ 204   3      		 		break;
+ 205   3      		 	case 16:
+ 206   3      		 	case 17:
+ 207   3      		 		LcdWriteStr("No Pulse, MF");
+ 208   3      		 		//Putc(command+48);
+ 209   3      				LED_AL1 =  LED_OFF;
+ 210   3      				LED_AL2 =  LED_OFF;
+ 211   3      				LED_MF  =  LED_ON;
+ 212   3      				RELAY1_S2 = 1;	RELAY2_MF = 0;	RELAY3_S1 = 1;
+ 213   3      				state = 8;
+ 214   3      		 		break;
+ 215   3      		}//switch(state)
+ 216   2      		if(Edge28==0)// +5 Present at Edge 28
+ 217   2      			LED_CC = 1;
+ 218   2      		else
+ 219   2      			LED_CC = 0;
+ 220   2      	}//while
+ 221   1      }//main
+ 222          // Interrupt Routines
+ 223          void PCATimers() interrupt 6  using 1
+ 224          {
+ 225   1      	if(CF)
+ 226   1      	{
+ 227   2      		CF = 0;
+ 228   2      		TF16++;
+ 229   2      	}//CF
+ 230   1      	else	if(CCF0 & isInit)
+ 231   1      	{
+ 232   2      		CCF0 = 0;
+ 233   2      		capLow  = CCAP0L; 
+ 234   2      		capHigh = CCAP0H;
+ 235   2      		PulseWidth = TL1;	// Save the Pulse Width Value
+ 236   2      		TL1 = 0;				// Reset for Next Pulse Width
+ 237   2      		state = next;
+ 238   2      	}
+ 239   1      }
+ 240          void Timer2()	interrupt 5
+ 241          {
+ 242   1      	TF2 = 0;
+ 243   1      	CntMSec++;
+ 244   1      }
+ 245          
+ 246          void Keypad_One() interrupt 0
+ 247          {
+ 248   1      	P0=0xFF;
+ 249   1      	EN = 0;CS=0;
+ 250   1      	Key = P0 & 0x0F;
+ 251   1      	CS=1;EN = 1;
+ 252   1      	if(isInit)
+ 253   1      	{
+ 254   2      		Key = Mapping[Key];
+ 255   2      		switch(Key)
+ 256   2      		{
+ 257   3      			case 'C':
+ 258   3      				LcdGotoXY(selThresh+2,7);
+ 259   3      				LcdWriteStr("       ");
+ 260   3      				LcdGotoXY(selThresh+2,7);
+ 261   3      				D = 0; r = 0; Point = 0; Num = 1; 
+ 262   3      				break;
+ 263   3      			case 'L':
+ 264   3      				TR2 = 0;
+ 265   3      				selThresh = 0;
+ 266   3      				LcdGotoXY(2,7);
+ 267   3      				LcdWriteStr("         ");
+ 268   3      				LcdGotoXY(2,7);
+ 269   3      				LcdWriteCmd(0x0D);
+ 270   3      				break;
+ 271   3      			case 'U':
+ 272   3      				TR2 = 0;
+ 273   3      				selThresh = 1;
+ 274   3      				LcdGotoXY(3,7);
+ 275   3      				LcdWriteStr("         ");
+ 276   3      				LcdGotoXY(3,7);
+ 277   3      				LcdWriteCmd(0x0D);
+ 278   3      				break;
+ 279   3      			case 'Y':
+ 280   3      				LcdWriteCmd(0x0C);
+ 281   3      				switch(selThresh)
+ 282   3      				{
+ 283   4      					case 0:
+ 284   4      						LcdGotoXY(2,7);
+ 285   4      
+ 286   4      						//if ((4000000*Num/D) >= 4000000000)	// Limit Exceed
+ 287   4      						if ((D/Num) <= 0.001)
+ 288   4      						{
+ 289   5      							Thresh[0] = 0.001;//4000000000;
+ 290   5      						}
+ 291   4      						//else if ((4000000*Num/D) < Thresh[1] ) //Not Logical
+ 292   4      						else if ((D/Num)> Thresh[1])
+ 293   4      						{
+ 294   5      							Thresh[0] = Thresh[0];
+ 295   5      						}
+ 296   4      						else
+ 297   4      							Thresh[0] = D/Num;//4000000*Num/D;
+ 298   4      
+ 299   4      						DispFrequency(Thresh[0],0);//CountsToFreq(Thresh[0],0);
+ 300   4      						break;
+ 301   4      					case 1:
+ 302   4      						LcdGotoXY(3,7);
+ 303   4      						//if ((4000000*Num/D) > Thresh[0]) //Not Logical
+ 304   4      						if (( D/Num) < Thresh[0])
+ 305   4      						{
+ 306   5      							Thresh[1] = Thresh[1];
+ 307   5      						}
+ 308   4      						//else if ((4000000*Num/D) <= 4000)	// Limit Exceed
+ 309   4      						else if ((D/Num) >= 1000)
+ 310   4      						{
+ 311   5      							Thresh[1] = 1000;//4000;
+ 312   5      						}
+ 313   4      						else
+ 314   4      							Thresh[1] = D/Num;//4000000*Num/D;
+ 315   4      
+ 316   4      						DispFrequency(Thresh[1],0);//CountsToFreq(Thresh[1],0);
+ 317   4      						break;
+ 318   4      				}
+ 319   3      				D = 0; r = 0; Point = 0; Num = 1; selThresh =2;
+ 320   3      				TR2 =1;
+ 321   3      				break;
+ 322   3      			case 'M':
+ 323   3      				break;
+ 324   3      			default:
+ 325   3      				if(Point<2 && r<7 && selThresh<2)
+ 326   3      				{
+ 327   4      					if(Point==1)
+ 328   4      						Num = Num*10;
+ 329   4      
+ 330   4      					if(Key==0xFE)
+ 331   4      					{
+ 332   5      						Point++;
+ 333   5      						/*if(Point>1)
+ 334   5      						{
+ 335   5      							LcdGotoXY(4,1);
+ 336   5      							LcdWriteStr("Error   ");
+ 337   5      						}*/
+ 338   5      					}
+ 339   4      					else
+ 340   4      						D = D*10 + Key;
+ 341   4      					LcdGotoXY(selThresh+2,7+r);
+ 342   4      					r++;
+ 343   4      					Putc(Key+48);
+ 344   4      				}//Point
+ 345   3      				break;
+ 346   3      		}
+ 347   2      	}
+ 348   1      }
+ 349          
+ 350          
+ 351          
+ 352          
+ 353          
+ 354          
+ 355          
+ 356          
+ 357          
+ 358          
+ 359          
+ 360          
+ 361          
+ 362          
+ 363          
+ 364          
+ 365          
+ 366          
+ 367          
+ 368          
+ 369          
+ 370          
+ 371          
+ 372          
+ 373          
+ 374          
+ 375          
+ 376          
+ 377          
+ 378          
+ 379          
+ 380          
+ 381          
+C51 COMPILER V6.11.4C,  MAIN                      05/29/112  09:26:42  PAGE  2
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+            ; FUNCTION Delay5us (BEGIN)
+                                           ; SOURCE LINE # 77 
+0000 758AEC         MOV    TL0,#0ECH
+                                           ; SOURCE LINE # 78 
+0003 758CFF         MOV    TH0,#0FFH
+                                           ; SOURCE LINE # 79 
+0006 D28C           SETB   TR0
+0008         ?WHILE1:
+                                           ; SOURCE LINE # 80 
+0008 308DFD         JNB    TF0,?WHILE1
+                                           ; SOURCE LINE # 81 
+000B C28C           CLR    TR0
+                                           ; SOURCE LINE # 82 
+000D C28D           CLR    TF0
+000F 22             RET    
+
+            ; FUNCTION Delay5us (END)
+
+            ; FUNCTION Delay10ms (BEGIN)
+                                           ; SOURCE LINE # 87 
+0000 758A00         MOV    TL0,#000H
+                                           ; SOURCE LINE # 88 
+0003 758C00         MOV    TH0,#000H
+                                           ; SOURCE LINE # 89 
+0006 D28C           SETB   TR0
+0008         ?WHILE3:
+                                           ; SOURCE LINE # 90 
+0008 308DFD         JNB    TF0,?WHILE3
+                                           ; SOURCE LINE # 91 
+000B C28C           CLR    TR0
+                                           ; SOURCE LINE # 92 
+000D C28D           CLR    TF0
+000F 22             RET    
+
+            ; FUNCTION Delay10ms (END)
+
+            ; FUNCTION _SendToDAC (BEGIN)
+              ; Register R6R7 is assigned to parameter cmd
+                                           ; SOURCE LINE # 99 
+0000 C292           CLR    dCLK
+                                           ; SOURCE LINE # 100 
+0002 C290           CLR    dLCH
+              ; R5 is assigned to dCnt
+                                           ; SOURCE LINE # 101 
+0004 7D00           MOV    R5,#000H
+0006         ?FOR1:
+                                           ; SOURCE LINE # 104 
+0006 EE             MOV    A,R6
+0007 5480           ANL    A,#080H
+0009 FB             MOV    R3,A
+000A E4             CLR    A
+000B 75F007         MOV    B,#007H
+000E         ?LAB9:
+000E C3             CLR    C
+000F 13             RRC    A
+0010 CB             XCH    A,R3
+0011 13             RRC    A
+0012 CB             XCH    A,R3
+0013 D5F0F8         DJNZ   B,?LAB9
+0016 F500    R      MOV    bits,A
+0018 8B00    R      MOV    bits+01H,R3
+                                           ; SOURCE LINE # 105 
+001A EF             MOV    A,R7
+001B C3             CLR    C
+001C 33             RLC    A
+001D CE             XCH    A,R6
+001E 33             RLC    A
+001F CE             XCH    A,R6
+0020 FF             MOV    R7,A
+                                           ; SOURCE LINE # 106 
+0021 C294           CLR    dDIN
+                                           ; SOURCE LINE # 107 
+0023 E500    R      MOV    A,bits
+0025 4500    R      ORL    A,bits+01H
+0027 6002           JZ     ?NXT9
+0029 D294           SETB   dDIN
+002B         ?NXT9:
+                                           ; SOURCE LINE # 108 
+002B 120000  R      LCALL  Delay5us
+                                           ; SOURCE LINE # 110 
+002E D292           SETB   dCLK
+                                           ; SOURCE LINE # 111 
+0030 120000  R      LCALL  Delay5us
+                                           ; SOURCE LINE # 112 
+0033 C292           CLR    dCLK
+                                           ; SOURCE LINE # 101 
+0035 0D             INC    R5
+0036 BD10CD         CJNE   R5,#010H,?FOR1
+                                           ; SOURCE LINE # 114 
+0039 D290           SETB   dLCH
+                                           ; SOURCE LINE # 115 
+003B 120000  R      LCALL  Delay5us
+                                           ; SOURCE LINE # 116 
+003E 120000  R      LCALL  Delay5us
+                                           ; SOURCE LINE # 117 
+0041 C290           CLR    dLCH
+0043 22             RET    
+
+            ; FUNCTION _SendToDAC (END)
+
+            ; FUNCTION _CountsToFreq (BEGIN)
+                                           ; SOURCE LINE # 167 
+0000 8C00    R      MOV    C,R4
+0002 8D00    R      MOV    C+01H,R5
+0004 8E00    R      MOV    C+02H,R6
+0006 8F00    R      MOV    C+03H,R7
+                                           ; SOURCE LINE # 123 
+0008 E4             CLR    A
+0009 F500    R      MOV    sum,A
+000B F500    R      MOV    sum+01H,A
+000D F500    R      MOV    sum+02H,A
+000F F500    R      MOV    sum+03H,A
+                                           ; SOURCE LINE # 127 
+0011 C0E0           PUSH   ACC
+0013 7424           MOV    A,#024H
+0015 C0E0           PUSH   ACC
+0017 7474           MOV    A,#074H
+0019 C0E0           PUSH   ACC
+001B 744A           MOV    A,#04AH
+001D C0E0           PUSH   ACC
+001F AC00    R      MOV    R4,C
+0021 AD00    R      MOV    R5,C+01H
+0023 AE00    R      MOV    R6,C+02H
+0025 AF00    R      MOV    R7,C+03H
+0027 120000  R      LCALL  ?CV_LU_IEEE
+002A 120000  R      LCALL  ?DIVIIEEE
+002D 8C00    R      MOV    fr,R4
+002F 8D00    R      MOV    fr+01H,R5
+0031 8E00    R      MOV    fr+02H,R6
+0033 8F00    R      MOV    fr+03H,R7
+                                           ; SOURCE LINE # 129 
+0035 7900    R      MOV    R1,#filter+024H
+0037 A700    R      MOV    @R1,fr
+0039 09             INC    R1
+003A A700    R      MOV    @R1,fr+01H
+003C 09             INC    R1
+003D A700    R      MOV    @R1,fr+02H
+003F 09             INC    R1
+0040 A700    R      MOV    @R1,fr+03H
+                                           ; SOURCE LINE # 130 
+0042 750000  R      MOV    u,#000H
+0045         ?FOR4:
+                                           ; SOURCE LINE # 131 
+0045 C000    R      PUSH   sum
+0047 C000    R      PUSH   sum+01H
+0049 C000    R      PUSH   sum+02H
+004B C000    R      PUSH   sum+03H
+004D E500    R      MOV    A,u
+004F 23             RL     A
+0050 23             RL     A
+0051 2400    R      ADD    A,#filter
+0053 F8             MOV    R0,A
+0054 120000  R      LCALL  MV4_I02RG?C
+0057 120000  R      LCALL  ?ADDIEEE
+005A 8C00    R      MOV    sum,R4
+005C 8D00    R      MOV    sum+01H,R5
+005E 8E00    R      MOV    sum+02H,R6
+0060 8F00    R      MOV    sum+03H,R7
+                                           ; SOURCE LINE # 130 
+0062 0500    R      INC    u
+0064 E500    R      MOV    A,u
+0066 B40ADC         CJNE   A,#00AH,?FOR4
+                                           ; SOURCE LINE # 132 
+0069 C000    R      PUSH   sum
+006B C000    R      PUSH   sum+01H
+006D C000    R      PUSH   sum+02H
+006F C000    R      PUSH   sum+03H
+0071 74CD           MOV    A,#0CDH
+0073 FC             MOV    R4,A
+0074 14             DEC    A
+0075 FD             MOV    R5,A
+0076 FE             MOV    R6,A
+0077 743D           MOV    A,#03DH
+0079 FF             MOV    R7,A
+007A 120000  R      LCALL  ?MULTIEEE
+007D 8C00    R      MOV    fr,R4
+007F 8D00    R      MOV    fr+01H,R5
+0081 8E00    R      MOV    fr+02H,R6
+0083 8F00    R      MOV    fr+03H,R7
+                                           ; SOURCE LINE # 133 
+0085 750000  R      MOV    u,#000H
+0088         ?FOR5:
+                                           ; SOURCE LINE # 134 
+0088 E500    R      MOV    A,u
+008A 23             RL     A
+008B 23             RL     A
+008C 2400    R      ADD    A,#filter+04H
+008E F8             MOV    R0,A
+008F E500    R      MOV    A,u
+0091 23             RL     A
+0092 23             RL     A
+0093 2400    R      ADD    A,#filter
+0095 F9             MOV    R1,A
+0096 120000  R      LCALL  MV4_I02RG?C
+0099 120000  R      LCALL  MV4_RG2I1?C
+                                           ; SOURCE LINE # 130 
+009C 0500    R      INC    u
+009E E500    R      MOV    A,u
+00A0 B409E5         CJNE   A,#009H,?FOR5
+                                           ; SOURCE LINE # 138 
+00A3 C000    R      PUSH   fr
+00A5 C000    R      PUSH   fr+01H
+00A7 C000    R      PUSH   fr+02H
+00A9 C000    R      PUSH   fr+03H
+00AB 7C0A           MOV    R4,#00AH
+00AD 7DD7           MOV    R5,#0D7H
+00AF 7E23           MOV    R6,#023H
+00B1 7F3C           MOV    R7,#03CH
+00B3 120000  R      LCALL  ?MULTIEEE
+00B6 120000  R      LCALL  ?CV_IEEE_LS
+00B9 8F00    R      MOV    Q1,R7
+                                           ; SOURCE LINE # 139 
+00BB C000    R      PUSH   fr
+00BD C000    R      PUSH   fr+01H
+00BF C000    R      PUSH   fr+02H
+00C1 C000    R      PUSH   fr+03H
+00C3 E500    R      MOV    A,Q1
+00C5 7E00           MOV    R6,#000H
+00C7 2400    R      ADD    A,#Calib
+00C9 F8             MOV    R0,A
+00CA E6             MOV    A,@R0
+00CB FF             MOV    R7,A
+00CC E4             CLR    A
+00CD FC             MOV    R4,A
+00CE FD             MOV    R5,A
+00CF 120000  R      LCALL  ?CV_LU_IEEE
+00D2 120000  R      LCALL  ?SUBBIEEE
+00D5 8C00    R      MOV    fr,R4
+00D7 8D00    R      MOV    fr+01H,R5
+00D9 8E00    R      MOV    fr+02H,R6
+00DB 8F00    R      MOV    fr+03H,R7
+                                           ; SOURCE LINE # 142 
+00DD C000    R      PUSH   fr
+00DF C000    R      PUSH   fr+01H
+00E1 C000    R      PUSH   fr+02H
+00E3 C000    R      PUSH   fr+03H
+00E5 E4             CLR    A
+00E6 FC             MOV    R4,A
+00E7 FD             MOV    R5,A
+00E8 747A           MOV    A,#07AH
+00EA FE             MOV    R6,A
+00EB 7444           MOV    A,#044H
+00ED FF             MOV    R7,A
+00EE 120000  R      LCALL  ?COMPIEEE
+00F1 BF0112         CJNE   R7,#001H,?ELSE6
+                                           ; SOURCE LINE # 144 
+00F4 E4             CLR    A
+00F5 F500    R      MOV    fr,A
+00F7 F500    R      MOV    fr+01H,A
+00F9 747A           MOV    A,#07AH
+00FB F500    R      MOV    fr+02H,A
+00FD 7444           MOV    A,#044H
+00FF F500    R      MOV    fr+03H,A
+                                           ; SOURCE LINE # 145 
+0101 430006  R      ORL    command,#006H
+0104 806A           SJMP   ?NXT22
+0106         ?ELSE6:
+                                           ; SOURCE LINE # 147 
+0106 C000    R      PUSH   fr
+0108 C000    R      PUSH   fr+01H
+010A C000    R      PUSH   fr+02H
+010C C000    R      PUSH   fr+03H
+010E AC00    R      MOV    R4,Thresh+04H
+0110 AD00    R      MOV    R5,Thresh+05H
+0112 AE00    R      MOV    R6,Thresh+06H
+0114 AF00    R      MOV    R7,Thresh+07H
+0116 120000  R      LCALL  ?COMPIEEE
+0119 BFFF02         CJNE   R7,#0FFH,?LAB21
+011C 8005           SJMP   ?ELSE7
+011E         ?LAB21:
+                                           ; SOURCE LINE # 149 
+011E 430004  R      ORL    command,#004H
+0121 804D           SJMP   ?NXT22
+0123         ?ELSE7:
+                                           ; SOURCE LINE # 151 
+0123 C000    R      PUSH   fr
+0125 C000    R      PUSH   fr+01H
+0127 C000    R      PUSH   fr+02H
+0129 C000    R      PUSH   fr+03H
+012B AC00    R      MOV    R4,Thresh
+012D AD00    R      MOV    R5,Thresh+01H
+012F AE00    R      MOV    R6,Thresh+02H
+0131 AF00    R      MOV    R7,Thresh+03H
+0133 120000  R      LCALL  ?COMPIEEE
+0136 BFFF02         CJNE   R7,#0FFH,?LAB23
+0139 8008           SJMP   ?ELSE8
+013B         ?LAB23:
+                                           ; SOURCE LINE # 153 
+013B 430002  R      ORL    command,#002H
+                                           ; SOURCE LINE # 154 
+013E 5300FB  R      ANL    command,#0FBH
+0141 802D           SJMP   ?NXT22
+0143         ?ELSE8:
+                                           ; SOURCE LINE # 156 
+0143 C000    R      PUSH   fr
+0145 C000    R      PUSH   fr+01H
+0147 C000    R      PUSH   fr+02H
+0149 C000    R      PUSH   fr+03H
+014B 7C6F           MOV    R4,#06FH
+014D 7D12           MOV    R5,#012H
+014F 7E03           MOV    R6,#003H
+0151 7F3B           MOV    R7,#03BH
+0153 120000  R      LCALL  ?COMPIEEE
+0156 BF0108         CJNE   R7,#001H,?ELSE9
+                                           ; SOURCE LINE # 158 
+0159 5300FD  R      ANL    command,#0FDH
+                                           ; SOURCE LINE # 159 
+015C 5300FB  R      ANL    command,#0FBH
+015F 800F           SJMP   ?NXT22
+0161         ?ELSE9:
+                                           ; SOURCE LINE # 163 
+0161 430010  R      ORL    command,#010H
+                                           ; SOURCE LINE # 164 
+0164 75006F  R      MOV    fr,#06FH
+0167 750012  R      MOV    fr+01H,#012H
+016A 750083  R      MOV    fr+02H,#083H
+016D 75003A  R      MOV    fr+03H,#03AH
+0170         ?NXT22:
+                                           ; SOURCE LINE # 167 
+0170 D200    R      SETB   _DispFrequency?BIT
+0172 AC00    R      MOV    R4,fr
+0174 AD00    R      MOV    R5,fr+01H
+0176 AE00    R      MOV    R6,fr+02H
+0178 AF00    R      MOV    R7,fr+03H
+017A 120000  R      LCALL  _DispFrequency
+017D 22             RET    
+
+            ; FUNCTION _CountsToFreq (END)
+
+            ; FUNCTION _DispFrequency (BEGIN)
+                                           ; SOURCE LINE # 188 
+0000 8C00    R      MOV    Fr,R4
+0002 8D00    R      MOV    Fr+01H,R5
+0004 8E00    R      MOV    Fr+02H,R6
+0006 8F00    R      MOV    Fr+03H,R7
+                                           ; SOURCE LINE # 175 
+0008 120000  R      LCALL  ?CV_IEEE_LS
+000B 8C00    R      MOV    W,R4
+000D 8D00    R      MOV    W+01H,R5
+000F 8E00    R      MOV    W+02H,R6
+0011 8F00    R      MOV    W+03H,R7
+                                           ; SOURCE LINE # 176 
+0013 C000    R      PUSH   Fr
+0015 C000    R      PUSH   Fr+01H
+0017 C000    R      PUSH   Fr+02H
+0019 C000    R      PUSH   Fr+03H
+001B 120000  R      LCALL  ?CV_LU_IEEE
+001E 120000  R      LCALL  ?SUBBIEEE
+0021 C004           PUSH   AR4
+0023 C005           PUSH   AR5
+0025 C006           PUSH   AR6
+0027 C007           PUSH   AR7
+0029 E4             CLR    A
+002A FC             MOV    R4,A
+002B FD             MOV    R5,A
+002C 747A           MOV    A,#07AH
+002E FE             MOV    R6,A
+002F 7444           MOV    A,#044H
+0031 FF             MOV    R7,A
+0032 120000  R      LCALL  ?MULTIEEE
+0035 120000  R      LCALL  ?CV_IEEE_LS
+0038 8C00    R      MOV    D,R4
+003A 8D00    R      MOV    D+01H,R5
+003C 8E00    R      MOV    D+02H,R6
+003E 8F00    R      MOV    D+03H,R7
+                                           ; SOURCE LINE # 178 
+0040 C000    R      PUSH   Fr
+0042 C000    R      PUSH   Fr+01H
+0044 C000    R      PUSH   Fr+02H
+0046 C000    R      PUSH   Fr+03H
+0048 7C6F           MOV    R4,#06FH
+004A 7D12           MOV    R5,#012H
+004C 7E83           MOV    R6,#083H
+004E 7F3A           MOV    R7,#03AH
+0050 120000  R      LCALL  ?SUBBIEEE
+0053 C004           PUSH   AR4
+0055 C005           PUSH   AR5
+0057 C006           PUSH   AR6
+0059 C007           PUSH   AR7
+005B E4             CLR    A
+005C FC             MOV    R4,A
+005D 7DFF           MOV    R5,#0FFH
+005F 7E7F           MOV    R6,#07FH
+0061 7F47           MOV    R7,#047H
+0063 120000  R      LCALL  ?MULTIEEE
+0066 C004           PUSH   AR4
+0068 C005           PUSH   AR5
+006A C006           PUSH   AR6
+006C C007           PUSH   AR7
+006E 7C77           MOV    R4,#077H
+0070 7D12           MOV    R5,#012H
+0072 7E83           MOV    R6,#083H
+0074 7F3A           MOV    R7,#03AH
+0076 120000  R      LCALL  ?MULTIEEE
+0079 8C00    R      MOV    Fr,R4
+007B 8D00    R      MOV    Fr+01H,R5
+007D 8E00    R      MOV    Fr+02H,R6
+007F 8F00    R      MOV    Fr+03H,R7
+                                           ; SOURCE LINE # 179 
+0081 30000E  R      JNB    dac_en,?NXT28
+                                           ; SOURCE LINE # 180 
+0084 AC00    R      MOV    R4,Fr
+0086 AD00    R      MOV    R5,Fr+01H
+0088 AE00    R      MOV    R6,Fr+02H
+008A AF00    R      MOV    R7,Fr+03H
+008C 120000  R      LCALL  ?CV_IEEE_LS
+008F 120000  R      LCALL  _SendToDAC
+0092         ?NXT28:
+                                           ; SOURCE LINE # 183 
+0092 C000    R      PUSH   W
+0094 C000    R      PUSH   W+01H
+0096 C000    R      PUSH   W+02H
+0098 C000    R      PUSH   W+03H
+009A E4             CLR    A
+009B FC             MOV    R4,A
+009C FD             MOV    R5,A
+009D 7403           MOV    A,#003H
+009F FE             MOV    R6,A
+00A0 74E8           MOV    A,#0E8H
+00A2 FF             MOV    R7,A
+00A3 120000  R      LCALL  ?C_CMPL
+00A6 BF0010         CJNE   R7,#000H,?ELSE13
+00A9 7F31           MOV    R7,#031H
+00AB 120000  R      LCALL  _LcdWriteChar
+00AE E4             CLR    A
+00AF F500    R      MOV    W,A
+00B1 F500    R      MOV    W+01H,A
+00B3 F500    R      MOV    W+02H,A
+00B5 F500    R      MOV    W+03H,A
+00B7 8005           SJMP   ?NXT29
+00B9         ?ELSE13:
+                                           ; SOURCE LINE # 184 
+00B9 7F20           MOV    R7,#020H
+00BB 120000  R      LCALL  _LcdWriteChar
+00BE         ?NXT29:
+                                           ; SOURCE LINE # 185 
+00BE AC00    R      MOV    R4,W
+00C0 AD00    R      MOV    R5,W+01H
+00C2 AE00    R      MOV    R6,W+02H
+00C4 AF00    R      MOV    R7,W+03H
+00C6 120000  R      LCALL  _LongToAscii
+                                           ; SOURCE LINE # 187 
+00C9 7F2E           MOV    R7,#02EH
+00CB 120000  R      LCALL  _LcdWriteChar
+                                           ; SOURCE LINE # 188 
+00CE AC00    R      MOV    R4,D
+00D0 AD00    R      MOV    R5,D+01H
+00D2 AE00    R      MOV    R6,D+02H
+00D4 AF00    R      MOV    R7,D+03H
+00D6 120000  R      LCALL  _LongToAscii
+00D9 22             RET    
+
+            ; FUNCTION _DispFrequency (END)
+
+            ; FUNCTION _LongToAscii (BEGIN)
+                                           ; SOURCE LINE # 207 
+0000 8C00    R      MOV    Value,R4
+0002 8D00    R      MOV    Value+01H,R5
+0004 8E00    R      MOV    Value+02H,R6
+0006 8F00    R      MOV    Value+03H,R7
+                                           ; SOURCE LINE # 199 
+0008 C004           PUSH   AR4
+000A C005           PUSH   AR5
+000C C006           PUSH   AR6
+000E C007           PUSH   AR7
+0010 E4             CLR    A
+0011 FE             MOV    R6,A
+0012 FC             MOV    R4,A
+0013 FD             MOV    R5,A
+0014 7464           MOV    A,#064H
+0016 FF             MOV    R7,A
+0017 120000  R      LCALL  ?C_ULDIV_SP
+001A 8F00    R      MOV    Q,R7
+                                           ; SOURCE LINE # 200 
+001C E500    R      MOV    A,Q
+001E 2430           ADD    A,#030H
+0020 FF             MOV    R7,A
+0021 120000  R      LCALL  _LcdWriteChar
+                                           ; SOURCE LINE # 201 
+0024 C000    R      PUSH   Value
+0026 C000    R      PUSH   Value+01H
+0028 C000    R      PUSH   Value+02H
+002A C000    R      PUSH   Value+03H
+002C 75F064         MOV    B,#064H
+002F E500    R      MOV    A,Q
+0031 A4             MUL    AB
+0032 FF             MOV    R7,A
+0033 AEF0           MOV    R6,B
+0035 E4             CLR    A
+0036 FC             MOV    R4,A
+0037 FD             MOV    R5,A
+0038 120000  R      LCALL  ?C_LSUB
+003B 8C00    R      MOV    Value,R4
+003D 8D00    R      MOV    Value+01H,R5
+003F 8E00    R      MOV    Value+02H,R6
+0041 8F00    R      MOV    Value+03H,R7
+                                           ; SOURCE LINE # 203 
+0043 C000    R      PUSH   Value
+0045 C000    R      PUSH   Value+01H
+0047 C000    R      PUSH   Value+02H
+0049 C000    R      PUSH   Value+03H
+004B E4             CLR    A
+004C FE             MOV    R6,A
+004D FC             MOV    R4,A
+004E FD             MOV    R5,A
+004F 740A           MOV    A,#00AH
+0051 FF             MOV    R7,A
+0052 120000  R      LCALL  ?C_ULDIV_SP
+0055 8F00    R      MOV    Q,R7
+                                           ; SOURCE LINE # 204 
+0057 E500    R      MOV    A,Q
+0059 2430           ADD    A,#030H
+005B FF             MOV    R7,A
+005C 120000  R      LCALL  _LcdWriteChar
+                                           ; SOURCE LINE # 206 
+005F C000    R      PUSH   Value
+0061 C000    R      PUSH   Value+01H
+0063 C000    R      PUSH   Value+02H
+0065 C000    R      PUSH   Value+03H
+0067 E4             CLR    A
+0068 FE             MOV    R6,A
+0069 FC             MOV    R4,A
+006A FD             MOV    R5,A
+006B 740A           MOV    A,#00AH
+006D FF             MOV    R7,A
+006E 120000  R      LCALL  ?C_LMOD_SP
+0071 8F00    R      MOV    Q,R7
+                                           ; SOURCE LINE # 207 
+0073 E500    R      MOV    A,Q
+0075 2430           ADD    A,#030H
+0077 FF             MOV    R7,A
+0078 120000  R      LCALL  _LcdWriteChar
+007B 22             RET    
+
+            ; FUNCTION _LongToAscii (END)
+
+            ; FUNCTION DelayUs (BEGIN)
+                                           ; SOURCE LINE # 229 
+0000 758A90         MOV    TL0,#090H
+0003 758CFE         MOV    TH0,#0FEH
+                                           ; SOURCE LINE # 230 
+0006 D28C           SETB   TR0
+0008         ?WHILE5:
+                                           ; SOURCE LINE # 231 
+0008 308DFD         JNB    TF0,?WHILE5
+                                           ; SOURCE LINE # 232 
+000B C28C           CLR    TR0
+                                           ; SOURCE LINE # 233 
+000D C28D           CLR    TF0
+000F 22             RET    
+
+            ; FUNCTION DelayUs (END)
+
+            ; FUNCTION LcdInit (BEGIN)
+                                           ; SOURCE LINE # 238 
+0000 7F38           MOV    R7,#038H
+0002 120000  R      LCALL  _LcdWriteCmd
+                                           ; SOURCE LINE # 239 
+0005 7F38           MOV    R7,#038H
+0007 120000  R      LCALL  _LcdWriteCmd
+                                           ; SOURCE LINE # 240 
+000A 7F38           MOV    R7,#038H
+000C 120000  R      LCALL  _LcdWriteCmd
+                                           ; SOURCE LINE # 241 
+000F 7F06           MOV    R7,#006H
+0011 120000  R      LCALL  _LcdWriteCmd
+                                           ; SOURCE LINE # 242 
+0014 7F0C           MOV    R7,#00CH
+0016 120000  R      LCALL  _LcdWriteCmd
+0019 22             RET    
+
+            ; FUNCTION LcdInit (END)
+
+            ; FUNCTION LcdBusy (BEGIN)
+                                           ; SOURCE LINE # 247 
+0000 D287           SETB   BS
+                                           ; SOURCE LINE # 248 
+0002 D296           SETB   EN
+                                           ; SOURCE LINE # 249 
+0004 C2B0           CLR    RS
+                                           ; SOURCE LINE # 250 
+0006 D2B1           SETB   RW
+0008         ?WHILE7:
+                                           ; SOURCE LINE # 251 
+0008 308706         JNB    BS,?NXT33
+                                           ; SOURCE LINE # 253 
+000B C296           CLR    EN
+                                           ; SOURCE LINE # 254 
+000D D296           SETB   EN
+000F 80F7           SJMP   ?WHILE7
+0011         ?NXT33:
+0011 22             RET    
+
+            ; FUNCTION LcdBusy (END)
+
+            ; FUNCTION _LcdWriteCmd (BEGIN)
+              ; Register R7 is assigned to parameter var
+                                           ; SOURCE LINE # 259 
+0000 8F80           MOV    P0,R7
+                                           ; SOURCE LINE # 260 
+0002 C2B0           CLR    RS
+                                           ; SOURCE LINE # 261 
+0004 C2B1           CLR    RW
+                                           ; SOURCE LINE # 262 
+0006 D296           SETB   EN
+                                           ; SOURCE LINE # 263 
+0008 C296           CLR    EN
+                                           ; SOURCE LINE # 264 
+000A 120000  R      LCALL  LcdBusy
+000D 22             RET    
+
+            ; FUNCTION _LcdWriteCmd (END)
+
+            ; FUNCTION _LcdWriteChar (BEGIN)
+              ; Register R7 is assigned to parameter var
+                                           ; SOURCE LINE # 268 
+0000 8F80           MOV    P0,R7
+                                           ; SOURCE LINE # 269 
+0002 D2B0           SETB   RS
+                                           ; SOURCE LINE # 270 
+0004 C2B1           CLR    RW
+                                           ; SOURCE LINE # 271 
+0006 D296           SETB   EN
+                                           ; SOURCE LINE # 272 
+0008 C296           CLR    EN
+                                           ; SOURCE LINE # 273 
+000A 120000  R      LCALL  LcdBusy
+000D 22             RET    
+
+            ; FUNCTION _LcdWriteChar (END)
+
+            ; FUNCTION _LcdWriteStr (BEGIN)
+              ; Register R0R4R5 is assigned to parameter var
+                                           ; SOURCE LINE # 278 
+0000 EB             MOV    A,R3
+0001 FD             MOV    R5,A
+0002 EA             MOV    A,R2
+0003 FC             MOV    R4,A
+0004 E9             MOV    A,R1
+0005 F8             MOV    R0,A
+0006         ?WHILE9:
+                                           ; SOURCE LINE # 277 
+0006 ED             MOV    A,R5
+0007 FB             MOV    R3,A
+0008 EC             MOV    A,R4
+0009 FA             MOV    R2,A
+000A E8             MOV    A,R0
+000B F9             MOV    R1,A
+000C 120000  R      LCALL  IPGN1?C
+000F 6015           JZ     ?NXT35
+                                           ; SOURCE LINE # 278 
+0011 ED             MOV    A,R5
+0012 FB             MOV    R3,A
+0013 EC             MOV    A,R4
+0014 FA             MOV    R2,A
+0015 E8             MOV    A,R0
+0016 F9             MOV    R1,A
+0017 08             INC    R0
+0018 E8             MOV    A,R0
+0019 7002           JNZ    ?LAB42
+001B 0C             INC    R4
+001C EC             MOV    A,R4
+001D         ?LAB42:
+001D 120000  R      LCALL  IPGN1?C
+0020 FF             MOV    R7,A
+0021 120000  R      LCALL  _LcdWriteChar
+0024 80E0           SJMP   ?WHILE9
+0026         ?NXT35:
+0026 22             RET    
+
+            ; FUNCTION _LcdWriteStr (END)
+
+            ; FUNCTION _LcdGotoXY (BEGIN)
+              ; Register R7 is assigned to parameter row
+              ; Register R5 is assigned to parameter col
+                                           ; SOURCE LINE # 283 
+0000 EF             MOV    A,R7
+0001 14             DEC    A
+0002 600A           JZ     ?CASE4
+0004 14             DEC    A
+0005 600F           JZ     ?CASE5
+0007 14             DEC    A
+0008 6014           JZ     ?CASE6
+000A 14             DEC    A
+000B 6019           JZ     ?CASE7
+000D 22             RET    
+000E         ?CASE4:
+                                           ; SOURCE LINE # 285 
+000E ED             MOV    A,R5
+000F 247F           ADD    A,#07FH
+0011 FF             MOV    R7,A
+0012 120000  R      LCALL  _LcdWriteCmd
+0015 22             RET    
+0016         ?CASE5:
+                                           ; SOURCE LINE # 286 
+0016 ED             MOV    A,R5
+0017 24BF           ADD    A,#0BFH
+0019 FF             MOV    R7,A
+001A 120000  R      LCALL  _LcdWriteCmd
+001D 22             RET    
+001E         ?CASE6:
+                                           ; SOURCE LINE # 287 
+001E ED             MOV    A,R5
+001F 248F           ADD    A,#08FH
+0021 FF             MOV    R7,A
+0022 120000  R      LCALL  _LcdWriteCmd
+0025 22             RET    
+0026         ?CASE7:
+                                           ; SOURCE LINE # 288 
+0026 ED             MOV    A,R5
+0027 24CF           ADD    A,#0CFH
+0029 FF             MOV    R7,A
+002A 120000  R      LCALL  _LcdWriteCmd
+                                           ; SOURCE LINE # 289 
+002D 22             RET    
+
+            ; FUNCTION _LcdGotoXY (END)
+
+            ; FUNCTION LcdClear (BEGIN)
+                                           ; SOURCE LINE # 296 
+0000 7F01           MOV    R7,#001H
+0002 120000  R      LCALL  _LcdWriteCmd
+              ; R7 is assigned to h
+                                           ; SOURCE LINE # 297 
+0005 1F             DEC    R7
+0006         ?FOR7:
+                                           ; SOURCE LINE # 298 
+0006 120000  R      LCALL  DelayUs
+                                           ; SOURCE LINE # 297 
+0009 0F             INC    R7
+000A BF64F9         CJNE   R7,#064H,?FOR7
+000D 22             RET    
+
+            ; FUNCTION LcdClear (END)
+
+            ; FUNCTION main (BEGIN)
+                                           ; SOURCE LINE # 19 
+0000 D2A3           SETB   RELAY1_S2
+                                           ; SOURCE LINE # 20 
+0002 C2A4           CLR    RELAY2_MF
+                                           ; SOURCE LINE # 21 
+0004 D2A5           SETB   RELAY3_S1
+              ; R4R5 is assigned to dly
+                                           ; SOURCE LINE # 25 
+0006 E4             CLR    A
+0007 FC             MOV    R4,A
+0008 FD             MOV    R5,A
+0009         ?FOR11:
+                                           ; SOURCE LINE # 26 
+0009 00             NOP    
+                                           ; SOURCE LINE # 25 
+000A 0D             INC    R5
+000B ED             MOV    A,R5
+000C 7001           JNZ    ?LAB65
+000E 0C             INC    R4
+000F         ?LAB65:
+000F BC75F7         CJNE   R4,#075H,?FOR11
+0012 BD30F4         CJNE   R5,#030H,?FOR11
+                                           ; SOURCE LINE # 28 
+0015 758F01         MOV    CKCON0,#001H
+                                           ; SOURCE LINE # 29 
+0018 E58E           MOV    A,AUXR
+001A 44FD           ORL    A,#0FDH
+001C F58E           MOV    AUXR,A
+                                           ; SOURCE LINE # 31 
+001E E4             CLR    A
+001F F500    R      MOV    Thresh,A
+0021 F500    R      MOV    Thresh+01H,A
+0023 7420           MOV    A,#020H
+0025 F500    R      MOV    Thresh+02H,A
+0027 7441           MOV    A,#041H
+0029 F500    R      MOV    Thresh+03H,A
+                                           ; SOURCE LINE # 32 
+002B E4             CLR    A
+002C F500    R      MOV    Thresh+04H,A
+002E F500    R      MOV    Thresh+05H,A
+0030 74C8           MOV    A,#0C8H
+0032 F500    R      MOV    Thresh+06H,A
+0034 7442           MOV    A,#042H
+0036 F500    R      MOV    Thresh+07H,A
+                                           ; SOURCE LINE # 34 
+0038 75C900         MOV    T2MOD,#000H
+                                           ; SOURCE LINE # 35 
+003B C2AF           CLR    EA
+                                           ; SOURCE LINE # 36 
+003D 758911         MOV    TMOD,#011H
+                                           ; SOURCE LINE # 37 
+0040 75A000         MOV    P2,#000H
+              ; R4R5 is assigned to dly
+                                           ; SOURCE LINE # 39 
+0043 E4             CLR    A
+0044 FC             MOV    R4,A
+0045 FD             MOV    R5,A
+0046         ?FOR12:
+                                           ; SOURCE LINE # 40 
+0046 120000  R      LCALL  Delay10ms
+0049 0D             INC    R5
+004A BD32F9         CJNE   R5,#032H,?FOR12
+                                           ; SOURCE LINE # 41 
+004D 120000  R      LCALL  LcdInit
+                                           ; SOURCE LINE # 42 
+0050 7F01           MOV    R7,#001H
+0052 7D01           MOV    R5,#001H
+0054 120000  R      LCALL  _LcdGotoXY
+                                           ; SOURCE LINE # 43 
+0057 7B05           MOV    R3,#005H
+0059 7A00    R      MOV    R2,#000H
+005B 7900    R      MOV    R1,#000H
+005D 120000  R      LCALL  _LcdWriteStr
+                                           ; SOURCE LINE # 44 
+0060 7F02           MOV    R7,#002H
+0062 7D03           MOV    R5,#003H
+0064 120000  R      LCALL  _LcdGotoXY
+                                           ; SOURCE LINE # 45 
+0067 7B05           MOV    R3,#005H
+0069 7A00    R      MOV    R2,#000H
+006B 7900    R      MOV    R1,#000H
+006D 120000  R      LCALL  _LcdWriteStr
+                                           ; SOURCE LINE # 46 
+0070 7F03           MOV    R7,#003H
+0072 7D03           MOV    R5,#003H
+0074 120000  R      LCALL  _LcdGotoXY
+                                           ; SOURCE LINE # 47 
+0077 7B05           MOV    R3,#005H
+0079 7A00    R      MOV    R2,#000H
+007B 7900    R      MOV    R1,#000H
+007D 120000  R      LCALL  _LcdWriteStr
+                                           ; SOURCE LINE # 48 
+0080 7F04           MOV    R7,#004H
+0082 7D01           MOV    R5,#001H
+0084 120000  R      LCALL  _LcdGotoXY
+                                           ; SOURCE LINE # 49 
+0087 7B05           MOV    R3,#005H
+0089 7A00    R      MOV    R2,#000H
+008B 7900    R      MOV    R1,#000H
+008D 120000  R      LCALL  _LcdWriteStr
+                                           ; SOURCE LINE # 50 
+0090 7F04           MOV    R7,#004H
+0092 7D0F           MOV    R5,#00FH
+0094 120000  R      LCALL  _LcdGotoXY
+                                           ; SOURCE LINE # 51 
+0097 7B05           MOV    R3,#005H
+0099 7A00    R      MOV    R2,#000H
+009B 7900    R      MOV    R1,#000H
+009D 120000  R      LCALL  _LcdWriteStr
+              ; R4R5 is assigned to dly
+                                           ; SOURCE LINE # 53 
+00A0 E4             CLR    A
+00A1 FD             MOV    R5,A
+00A2         ?FOR13:
+                                           ; SOURCE LINE # 54 
+00A2 120000  R      LCALL  Delay10ms
+00A5 0D             INC    R5
+00A6 BD32F9         CJNE   R5,#032H,?FOR13
+                                           ; SOURCE LINE # 56 
+00A9 7589A1         MOV    TMOD,#0A1H
+                                           ; SOURCE LINE # 58 
+00AC 758D00         MOV    TH1,#000H
+                                           ; SOURCE LINE # 59 
+00AF 758B00         MOV    TL1,#000H
+                                           ; SOURCE LINE # 60 
+00B2 D28E           SETB   TR1
+                                           ; SOURCE LINE # 64 
+00B4 75C901         MOV    T2MOD,#001H
+                                           ; SOURCE LINE # 65 
+00B7 75C800         MOV    T2CON,#000H
+                                           ; SOURCE LINE # 66 
+00BA 75CD3C         MOV    TH2,#03CH
+00BD 75CCB0         MOV    TL2,#0B0H
+                                           ; SOURCE LINE # 67 
+00C0 75CB3C         MOV    RCAP2H,#03CH
+00C3 75CAB0         MOV    RCAP2L,#0B0H
+                                           ; SOURCE LINE # 68 
+00C6 D2CA           SETB   TR2
+                                           ; SOURCE LINE # 69 
+00C8 D2AD           SETB   ET2
+                                           ; SOURCE LINE # 70 
+00CA D2AF           SETB   EA
+                                           ; SOURCE LINE # 72 
+00CC 75D800         MOV    CCON,#000H
+                                           ; SOURCE LINE # 73 
+00CF 75D901         MOV    CMOD,#001H
+                                           ; SOURCE LINE # 74 
+00D2 75F900         MOV    CH,#000H
+                                           ; SOURCE LINE # 75 
+00D5 75E900         MOV    CL,#000H
+                                           ; SOURCE LINE # 76 
+00D8 75DA11         MOV    CCAPM0,#011H
+                                           ; SOURCE LINE # 77 
+00DB D2DE           SETB   CR
+                                           ; SOURCE LINE # 78 
+00DD D2AE           SETB   EC
+                                           ; SOURCE LINE # 80 
+00DF D2A8           SETB   EX0
+                                           ; SOURCE LINE # 81 
+00E1 D288           SETB   IT0
+                                           ; SOURCE LINE # 84 
+00E3 D2A6           SETB   LED_MF
+                                           ; SOURCE LINE # 85 
+00E5 C2A0           CLR    LED_AL1
+                                           ; SOURCE LINE # 86 
+00E7 C2A1           CLR    LED_AL2
+                                           ; SOURCE LINE # 87 
+00E9 C2A2           CLR    LED_CC
+                                           ; SOURCE LINE # 88 
+00EB D2A3           SETB   RELAY1_S2
+                                           ; SOURCE LINE # 89 
+00ED C2A4           CLR    RELAY2_MF
+                                           ; SOURCE LINE # 90 
+00EF D2A5           SETB   RELAY3_S1
+                                           ; SOURCE LINE # 91 
+00F1 D200    R      SETB   isInit
+00F3         ?WHILE11:
+                                           ; SOURCE LINE # 93 
+00F3 200003  R      JB     isInit,$ + 6
+00F6 020000  R      LJMP   ?NXT61
+                                           ; SOURCE LINE # 95 
+00F9 E500    R      MOV    A,state
+00FB 2400           ADD    A,#000H
+00FD B41200         CJNE   A,#012H,?LAB67
+0100         ?LAB67:
+0100 4003           JC     $ + 5
+0102 020000  R      LJMP   ?NXT62
+0105 FA             MOV    R2,A
+0106 23             RL     A
+0107 2A             ADD    A,R2
+0108 900000  R      MOV    DPTR,#?LAB68
+010B 73             JMP    @A+DPTR
+010C         ?LAB68:
+010C 020000  R      LJMP   ?CASE24
+010F 020000  R      LJMP   ?CASE25
+0112 020000  R      LJMP   ?CASE26
+0115 020000  R      LJMP   ?CASE27
+0118 020000  R      LJMP   ?CASE30
+011B 020000  R      LJMP   ?CASE31
+011E 020000  R      LJMP   ?CASE30
+0121 020000  R      LJMP   ?CASE31
+0124 020000  R      LJMP   ?CASE32
+0127 020000  R      LJMP   ?CASE33
+012A 020000  R      LJMP   ?CASE34
+012D 020000  R      LJMP   ?CASE35
+0130 020000  R      LJMP   ?CASE36
+0133 020000  R      LJMP   ?CASE37
+0136 020000  R      LJMP   ?NXT62
+0139 020000  R      LJMP   ?NXT62
+013C 020000  R      LJMP   ?CASE39
+013F 020000  R      LJMP   ?CASE39
+0142 020000  R      LJMP   ?NXT62
+0145         ?CASE32:
+                                           ; SOURCE LINE # 98 
+0145 750009  R      MOV    next,#009H
+                                           ; SOURCE LINE # 99 
+0148 020000  R      LJMP   ?NXT62
+014B         ?CASE33:
+                                           ; SOURCE LINE # 101 
+014B 75000A  R      MOV    next,#00AH
+                                           ; SOURCE LINE # 102 
+014E 020000  R      LJMP   ?NXT62
+0151         ?CASE34:
+                                           ; SOURCE LINE # 104 
+0151 75000B  R      MOV    state,#00BH
+                                           ; SOURCE LINE # 105 
+0154 75000B  R      MOV    next,#00BH
+                                           ; SOURCE LINE # 106 
+0157 020000  R      LJMP   ?NXT62
+015A         ?CASE35:
+                                           ; SOURCE LINE # 108 
+015A E500    R      MOV    A,PulseWidth
+015C B40006         CJNE   A,#000H,?LAB69
+015F E500    R      MOV    A,PulseWidth+01H
+0161 B40501         CJNE   A,#005H,?LAB69
+0164 D3             SETB   C
+0165         ?LAB69:
+0165 404B           JC     ?NXT63
+                                           ; SOURCE LINE # 110 
+0167 850000  R      MOV    TF16_Old,TF16
+016A 850000  R      MOV    TF16_Old+01H,TF16+01H
+                                           ; SOURCE LINE # 111 
+016D E4             CLR    A
+016E F500    R      MOV    TF16,A
+0170 F500    R      MOV    TF16+01H,A
+                                           ; SOURCE LINE # 112 
+0172 F5E9           MOV    CL,A
+0174 F5F9           MOV    CH,A
+                                           ; SOURCE LINE # 113 
+0176 2500    R      ADD    A,capLow
+0178 F500    R      MOV    Capture16+01H,A
+017A E4             CLR    A
+017B 3500    R      ADDC   A,capHigh
+017D F500    R      MOV    Capture16,A
+                                           ; SOURCE LINE # 114 
+017F E4             CLR    A
+0180 F500    R      MOV    Count32,A
+0182 F500    R      MOV    Count32+01H,A
+0184 850000  R      MOV    Count32+02H,TF16_Old
+0187 850000  R      MOV    Count32+03H,TF16_Old+01H
+                                           ; SOURCE LINE # 115 
+018A AC00    R      MOV    R4,Count32
+018C AD00    R      MOV    R5,Count32+01H
+018E AE00    R      MOV    R6,Count32+02H
+0190 AF00    R      MOV    R7,Count32+03H
+0192 75F010         MOV    B,#010H
+0195 120000  R      LCALL  ?C_LSHL
+0198 C004           PUSH   AR4
+019A C005           PUSH   AR5
+019C C006           PUSH   AR6
+019E C007           PUSH   AR7
+01A0 E4             CLR    A
+01A1 FC             MOV    R4,A
+01A2 FD             MOV    R5,A
+01A3 AE00    R      MOV    R6,Capture16
+01A5 AF00    R      MOV    R7,Capture16+01H
+01A7 120000  R      LCALL  ?C_LADD
+01AA 8C00    R      MOV    Count32,R4
+01AC 8D00    R      MOV    Count32+01H,R5
+01AE 8E00    R      MOV    Count32+02H,R6
+01B0 8F00    R      MOV    Count32+03H,R7
+01B2         ?NXT63:
+                                           ; SOURCE LINE # 117 
+01B2 75000C  R      MOV    state,#00CH
+                                           ; SOURCE LINE # 118 
+01B5 020000  R      LJMP   ?NXT62
+01B8         ?CASE36:
+                                           ; SOURCE LINE # 120 
+01B8 E500    R      MOV    A,CntMSec
+01BA B45002         CJNE   A,#050H,$ + 5
+01BD 8003           SJMP   $ + 5
+01BF 020000  R      LJMP   ?NXT62
+                                           ; SOURCE LINE # 122 
+01C2 E4             CLR    A
+01C3 F500    R      MOV    CntMSec,A
+                                           ; SOURCE LINE # 123 
+01C5 75000D  R      MOV    state,#00DH
+                                           ; SOURCE LINE # 125 
+01C8 020000  R      LJMP   ?NXT62
+01CB         ?CASE37:
+                                           ; SOURCE LINE # 128 
+01CB E5F9           MOV    A,CH
+01CD FA             MOV    R2,A
+01CE E5E9           MOV    A,CL
+01D0 FD             MOV    R5,A
+01D1 E4             CLR    A
+01D2 2D             ADD    A,R5
+01D3 F500    R      MOV    rCapture16+01H,A
+01D5 E4             CLR    A
+01D6 3A             ADDC   A,R2
+01D7 F500    R      MOV    rCapture16,A
+                                           ; SOURCE LINE # 129 
+01D9 E4             CLR    A
+01DA F500    R      MOV    rCount32,A
+01DC F500    R      MOV    rCount32+01H,A
+01DE 850000  R      MOV    rCount32+02H,TF16
+01E1 850000  R      MOV    rCount32+03H,TF16+01H
+                                           ; SOURCE LINE # 130 
+01E4 AC00    R      MOV    R4,rCount32
+01E6 AD00    R      MOV    R5,rCount32+01H
+01E8 AE00    R      MOV    R6,rCount32+02H
+01EA AF00    R      MOV    R7,rCount32+03H
+01EC 75F010         MOV    B,#010H
+01EF 120000  R      LCALL  ?C_LSHL
+01F2 C004           PUSH   AR4
+01F4 C005           PUSH   AR5
+01F6 C006           PUSH   AR6
+01F8 C007           PUSH   AR7
+01FA E4             CLR    A
+01FB FC             MOV    R4,A
+01FC FD             MOV    R5,A
+01FD AE00    R      MOV    R6,rCapture16
+01FF AF00    R      MOV    R7,rCapture16+01H
+0201 120000  R      LCALL  ?C_LADD
+0204 8C00    R      MOV    rCount32,R4
+0206 8D00    R      MOV    rCount32+01H,R5
+0208 8E00    R      MOV    rCount32+02H,R6
+020A 8F00    R      MOV    rCount32+03H,R7
+                                           ; SOURCE LINE # 132 
+020C 7F01           MOV    R7,#001H
+020E 7D07           MOV    R5,#007H
+0210 120000  R      LCALL  _LcdGotoXY
+0213 7B05           MOV    R3,#005H
+0215 7A00    R      MOV    R2,#000H
+0217 7900    R      MOV    R1,#000H
+0219 120000  R      LCALL  _LcdWriteStr
+                                           ; SOURCE LINE # 133 
+021C C000    R      PUSH   Count32
+021E C000    R      PUSH   Count32+01H
+0220 C000    R      PUSH   Count32+02H
+0222 C000    R      PUSH   Count32+03H
+0224 AC00    R      MOV    R4,rCount32
+0226 AD00    R      MOV    R5,rCount32+01H
+0228 AE00    R      MOV    R6,rCount32+02H
+022A AF00    R      MOV    R7,rCount32+03H
+022C 120000  R      LCALL  ?C_CMPL
+022F BFFF0C         CJNE   R7,#0FFH,?NXT65
+                                           ; SOURCE LINE # 134 
+0232 850000  R      MOV    Count32,rCount32
+0235 850000  R      MOV    Count32+01H,rCount32+01H
+0238 850000  R      MOV    Count32+02H,rCount32+02H
+023B 850000  R      MOV    Count32+03H,rCount32+03H
+023E         ?NXT65:
+                                           ; SOURCE LINE # 136 
+023E E4             CLR    A
+023F F500    R      MOV    command,A
+                                           ; SOURCE LINE # 137 
+0241 309105         JNB    Edge29,?ELSE22
+                                           ; SOURCE LINE # 138 
+0244 430001  R      ORL    command,#001H
+0247 8003           SJMP   ?NXT66
+0249         ?ELSE22:
+                                           ; SOURCE LINE # 141 
+0249 5300FE  R      ANL    command,#0FEH
+024C         ?NXT66:
+                                           ; SOURCE LINE # 144 
+024C 7F01           MOV    R7,#001H
+024E 7D07           MOV    R5,#007H
+0250 120000  R      LCALL  _LcdGotoXY
+0253 AC00    R      MOV    R4,Count32
+0255 AD00    R      MOV    R5,Count32+01H
+0257 AE00    R      MOV    R6,Count32+02H
+0259 AF00    R      MOV    R7,Count32+03H
+025B 120000  R      LCALL  _CountsToFreq
+                                           ; SOURCE LINE # 145 
+025E 7F04           MOV    R7,#004H
+0260 7D01           MOV    R5,#001H
+0262 120000  R      LCALL  _LcdGotoXY
+                                           ; SOURCE LINE # 146 
+0265 850000  R      MOV    state,command
+                                           ; SOURCE LINE # 147 
+0268 020000  R      LJMP   ?NXT62
+026B         ?CASE24:
+                                           ; SOURCE LINE # 149 
+026B 7B05           MOV    R3,#005H
+026D 7A00    R      MOV    R2,#000H
+026F 7900    R      MOV    R1,#000H
+0271 120000  R      LCALL  _LcdWriteStr
+                                           ; SOURCE LINE # 151 
+0274 C2A6           CLR    LED_MF
+                                           ; SOURCE LINE # 152 
+0276 C2A0           CLR    LED_AL1
+                                           ; SOURCE LINE # 153 
+0278 C2A1           CLR    LED_AL2
+                                           ; SOURCE LINE # 154 
+027A D2A3           SETB   RELAY1_S2
+027C D2A4           SETB   RELAY2_MF
+027E D2A5           SETB   RELAY3_S1
+                                           ; SOURCE LINE # 155 
+0280 75000C  R      MOV    state,#00CH
+                                           ; SOURCE LINE # 156 
+0283 020000  R      LJMP   ?NXT62
+0286         ?CASE25:
+                                           ; SOURCE LINE # 158 
+0286 7B05           MOV    R3,#005H
+0288 7A00    R      MOV    R2,#000H
+028A 7900    R      MOV    R1,#000H
+028C 120000  R      LCALL  _LcdWriteStr
+                                           ; SOURCE LINE # 160 
+028F C2A0           CLR    LED_AL1
+                                           ; SOURCE LINE # 161 
+0291 C2A1           CLR    LED_AL2
+                                           ; SOURCE LINE # 162 
+0293 D2A6           SETB   LED_MF
+                                           ; SOURCE LINE # 163 
+0295 D2A3           SETB   RELAY1_S2
+0297 C2A4           CLR    RELAY2_MF
+0299 D2A5           SETB   RELAY3_S1
+                                           ; SOURCE LINE # 165 
+029B 75000C  R      MOV    state,#00CH
+                                           ; SOURCE LINE # 166 
+029E 020000  R      LJMP   ?NXT62
+02A1         ?CASE26:
+                                           ; SOURCE LINE # 168 
+02A1 7B05           MOV    R3,#005H
+02A3 7A00    R      MOV    R2,#000H
+02A5 7900    R      MOV    R1,#000H
+02A7 120000  R      LCALL  _LcdWriteStr
+                                           ; SOURCE LINE # 170 
+02AA C2A6           CLR    LED_MF
+                                           ; SOURCE LINE # 171 
+02AC D2A0           SETB   LED_AL1
+                                           ; SOURCE LINE # 172 
+02AE C2A1           CLR    LED_AL2
+                                           ; SOURCE LINE # 173 
+02B0 D2A3           SETB   RELAY1_S2
+02B2 D2A4           SETB   RELAY2_MF
+02B4 C2A5           CLR    RELAY3_S1
+                                           ; SOURCE LINE # 174 
+02B6 75000C  R      MOV    state,#00CH
+                                           ; SOURCE LINE # 175 
+02B9 8066           SJMP   ?NXT62
+02BB         ?CASE27:
+                                           ; SOURCE LINE # 177 
+02BB 7B05           MOV    R3,#005H
+02BD 7A00    R      MOV    R2,#000H
+02BF 7900    R      MOV    R1,#000H
+02C1 120000  R      LCALL  _LcdWriteStr
+                                           ; SOURCE LINE # 179 
+02C4 D2A6           SETB   LED_MF
+                                           ; SOURCE LINE # 180 
+02C6 D2A0           SETB   LED_AL1
+                                           ; SOURCE LINE # 181 
+02C8 C2A1           CLR    LED_AL2
+                                           ; SOURCE LINE # 182 
+02CA D2A3           SETB   RELAY1_S2
+02CC C2A4           CLR    RELAY2_MF
+02CE C2A5           CLR    RELAY3_S1
+                                           ; SOURCE LINE # 183 
+02D0 75000C  R      MOV    state,#00CH
+                                           ; SOURCE LINE # 184 
+02D3 804C           SJMP   ?NXT62
+02D5         ?CASE30:
+                                           ; SOURCE LINE # 187 
+02D5 7B05           MOV    R3,#005H
+02D7 7A00    R      MOV    R2,#000H
+02D9 7900    R      MOV    R1,#000H
+02DB 120000  R      LCALL  _LcdWriteStr
+                                           ; SOURCE LINE # 189 
+02DE C2A6           CLR    LED_MF
+                                           ; SOURCE LINE # 190 
+02E0 D2A0           SETB   LED_AL1
+                                           ; SOURCE LINE # 191 
+02E2 D2A1           SETB   LED_AL2
+                                           ; SOURCE LINE # 192 
+02E4 C2A3           CLR    RELAY1_S2
+02E6 D2A4           SETB   RELAY2_MF
+02E8 C2A5           CLR    RELAY3_S1
+                                           ; SOURCE LINE # 193 
+02EA 75000C  R      MOV    state,#00CH
+                                           ; SOURCE LINE # 194 
+02ED 8032           SJMP   ?NXT62
+02EF         ?CASE31:
+                                           ; SOURCE LINE # 197 
+02EF 7B05           MOV    R3,#005H
+02F1 7A00    R      MOV    R2,#000H
+02F3 7900    R      MOV    R1,#000H
+02F5 120000  R      LCALL  _LcdWriteStr
+                                           ; SOURCE LINE # 199 
+02F8 D2A6           SETB   LED_MF
+                                           ; SOURCE LINE # 200 
+02FA D2A0           SETB   LED_AL1
+                                           ; SOURCE LINE # 201 
+02FC D2A1           SETB   LED_AL2
+                                           ; SOURCE LINE # 202 
+02FE C2A3           CLR    RELAY1_S2
+0300 C2A4           CLR    RELAY2_MF
+0302 C2A5           CLR    RELAY3_S1
+                                           ; SOURCE LINE # 203 
+0304 75000C  R      MOV    state,#00CH
+                                           ; SOURCE LINE # 204 
+0307 8018           SJMP   ?NXT62
+0309         ?CASE39:
+                                           ; SOURCE LINE # 207 
+0309 7B05           MOV    R3,#005H
+030B 7A00    R      MOV    R2,#000H
+030D 7900    R      MOV    R1,#000H
+030F 120000  R      LCALL  _LcdWriteStr
+                                           ; SOURCE LINE # 209 
+0312 C2A0           CLR    LED_AL1
+                                           ; SOURCE LINE # 210 
+0314 C2A1           CLR    LED_AL2
+                                           ; SOURCE LINE # 211 
+0316 D2A6           SETB   LED_MF
+                                           ; SOURCE LINE # 212 
+0318 D2A3           SETB   RELAY1_S2
+031A C2A4           CLR    RELAY2_MF
+031C D2A5           SETB   RELAY3_S1
+                                           ; SOURCE LINE # 213 
+031E 750008  R      MOV    state,#008H
+0321         ?NXT62:
+                                           ; SOURCE LINE # 216 
+0321 20B405         JB     Edge28,?ELSE23
+                                           ; SOURCE LINE # 217 
+0324 D2A2           SETB   LED_CC
+0326 020000  R      LJMP   ?WHILE11
+0329         ?ELSE23:
+                                           ; SOURCE LINE # 219 
+0329 C2A2           CLR    LED_CC
+032B 020000  R      LJMP   ?WHILE11
+032E         ?NXT61:
+032E 22             RET    
+
+            ; FUNCTION main (END)
+
+            ; FUNCTION PCATimers (BEGIN)
+                                           ; SOURCE LINE # 237 
+0000 C0E0           PUSH   ACC
+0002 C0D0           PUSH   PSW
+0004 75D008         MOV    PSW,#008H
+                                           ; SOURCE LINE # 225 
+0007 30DF0C         JNB    CF,?ELSE26
+                                           ; SOURCE LINE # 227 
+000A C2DF           CLR    CF
+                                           ; SOURCE LINE # 228 
+000C 0500    R      INC    TF16+01H
+000E E500    R      MOV    A,TF16+01H
+0010 701F           JNZ    ?NXT71
+0012 0500    R      INC    TF16
+0014 801B           SJMP   ?NXT73
+0016         ?ELSE26:
+                                           ; SOURCE LINE # 230 
+0016 30D818         JNB    CCF0,?NXT73
+0019 300015  R      JNB    isInit,?NXT73
+                                           ; SOURCE LINE # 232 
+001C C2D8           CLR    CCF0
+                                           ; SOURCE LINE # 233 
+001E 85EA00  R      MOV    capLow,CCAP0L
+                                           ; SOURCE LINE # 234 
+0021 85FA00  R      MOV    capHigh,CCAP0H
+                                           ; SOURCE LINE # 235 
+0024 E58B           MOV    A,TL1
+0026 750000  R      MOV    PulseWidth,#000H
+0029 F500    R      MOV    PulseWidth+01H,A
+                                           ; SOURCE LINE # 236 
+002B 758B00         MOV    TL1,#000H
+                                           ; SOURCE LINE # 237 
+002E 850000  R      MOV    state,next
+0031         ?NXT71:
+
+0031         ?NXT73:
+0031 D0D0           POP    PSW
+0033 D0E0           POP    ACC
+0035 32             RETI   
+
+            ; FUNCTION PCATimers (END)
+
+            ; FUNCTION Timer2 (BEGIN)
+                                           ; SOURCE LINE # 243 
+0000 C0E0           PUSH   ACC
+0002 C0D0           PUSH   PSW
+                                           ; SOURCE LINE # 242 
+0004 C2CF           CLR    TF2
+                                           ; SOURCE LINE # 243 
+0006 0500    R      INC    CntMSec
+0008 D0D0           POP    PSW
+000A D0E0           POP    ACC
+000C 32             RETI   
+
+            ; FUNCTION Timer2 (END)
+
+            ; FUNCTION Keypad_One (BEGIN)
+                                           ; SOURCE LINE # 345 
+0000 C0E0           PUSH   ACC
+0002 C0F0           PUSH   B
+0004 C083           PUSH   DPH
+0006 C082           PUSH   DPL
+0008 C0D0           PUSH   PSW
+000A C000           PUSH   AR0
+000C C001           PUSH   AR1
+000E C002           PUSH   AR2
+0010 C003           PUSH   AR3
+0012 C004           PUSH   AR4
+0014 C005           PUSH   AR5
+0016 C006           PUSH   AR6
+0018 C007           PUSH   AR7
+                                           ; SOURCE LINE # 248 
+001A 7580FF         MOV    P0,#0FFH
+                                           ; SOURCE LINE # 249 
+001D C296           CLR    EN
+001F C297           CLR    CS
+                                           ; SOURCE LINE # 250 
+0021 E580           MOV    A,P0
+0023 540F           ANL    A,#00FH
+0025 F500    R      MOV    Key,A
+                                           ; SOURCE LINE # 251 
+0027 D297           SETB   CS
+0029 D296           SETB   EN
+                                           ; SOURCE LINE # 252 
+002B 200003  R      JB     isInit,$ + 6
+002E 020000  R      LJMP   ?NXT97
+                                           ; SOURCE LINE # 254 
+0031 E500    R      MOV    A,Key
+0033 2400    R      ADD    A,#Mapping
+0035 F8             MOV    R0,A
+0036 8600    R      MOV    Key,@R0
+                                           ; SOURCE LINE # 255 
+0038 E500    R      MOV    A,Key
+003A 24BD           ADD    A,#0BDH
+003C 6018           JZ     ?CASE47
+003E 24F7           ADD    A,#0F7H
+0040 604D           JZ     ?CASE48
+0042 14             DEC    A
+0043 7003           JNZ    $ + 5
+0045 020000  R      LJMP   ?NXT88
+0048 24F8           ADD    A,#0F8H
+004A 6067           JZ     ?CASE50
+004C 24FC           ADD    A,#0FCH
+004E 7003           JNZ    $ + 5
+0050 020000  R      LJMP   ?CASE51
+0053 020000  R      LJMP   ?DEFAULT3
+0056         ?CASE47:
+                                           ; SOURCE LINE # 258 
+0056 E500    R      MOV    A,selThresh
+0058 2402           ADD    A,#002H
+005A FF             MOV    R7,A
+005B 7D07           MOV    R5,#007H
+005D 120000  R      LCALL  _LcdGotoXY
+                                           ; SOURCE LINE # 259 
+0060 7B05           MOV    R3,#005H
+0062 7A00    R      MOV    R2,#000H
+0064 7900    R      MOV    R1,#000H
+0066 120000  R      LCALL  _LcdWriteStr
+                                           ; SOURCE LINE # 260 
+0069 E500    R      MOV    A,selThresh
+006B 2402           ADD    A,#002H
+006D FF             MOV    R7,A
+006E 7D07           MOV    R5,#007H
+0070 120000  R      LCALL  _LcdGotoXY
+                                           ; SOURCE LINE # 261 
+0073 E4             CLR    A
+0074 F500    R      MOV    D,A
+0076 F500    R      MOV    D+01H,A
+0078 F500    R      MOV    D+02H,A
+007A F500    R      MOV    D+03H,A
+007C F500    R      MOV    r,A
+007E F500    R      MOV    Point,A
+0080 F500    R      MOV    Num,A
+0082 F500    R      MOV    Num+01H,A
+0084 7480           MOV    A,#080H
+0086 F500    R      MOV    Num+02H,A
+0088 743F           MOV    A,#03FH
+008A F500    R      MOV    Num+03H,A
+                                           ; SOURCE LINE # 262 
+008C 020000  R      LJMP   ?NXT97
+008F         ?CASE48:
+                                           ; SOURCE LINE # 264 
+008F C2CA           CLR    TR2
+                                           ; SOURCE LINE # 265 
+0091 E4             CLR    A
+0092 F500    R      MOV    selThresh,A
+                                           ; SOURCE LINE # 266 
+0094 7F02           MOV    R7,#002H
+0096 7D07           MOV    R5,#007H
+0098 120000  R      LCALL  _LcdGotoXY
+                                           ; SOURCE LINE # 267 
+009B 7B05           MOV    R3,#005H
+009D 7A00    R      MOV    R2,#000H
+009F 7900    R      MOV    R1,#000H
+00A1 120000  R      LCALL  _LcdWriteStr
+                                           ; SOURCE LINE # 268 
+00A4 7F02           MOV    R7,#002H
+00A6 7D07           MOV    R5,#007H
+00A8 120000  R      LCALL  _LcdGotoXY
+                                           ; SOURCE LINE # 269 
+00AB 7F0D           MOV    R7,#00DH
+00AD 120000  R      LCALL  _LcdWriteCmd
+                                           ; SOURCE LINE # 270 
+00B0 020000  R      LJMP   ?NXT97
+00B3         ?CASE50:
+                                           ; SOURCE LINE # 272 
+00B3 C2CA           CLR    TR2
+                                           ; SOURCE LINE # 273 
+00B5 750001  R      MOV    selThresh,#001H
+                                           ; SOURCE LINE # 274 
+00B8 7F03           MOV    R7,#003H
+00BA 7D07           MOV    R5,#007H
+00BC 120000  R      LCALL  _LcdGotoXY
+                                           ; SOURCE LINE # 275 
+00BF 7B05           MOV    R3,#005H
+00C1 7A00    R      MOV    R2,#000H
+00C3 7900    R      MOV    R1,#000H
+00C5 120000  R      LCALL  _LcdWriteStr
+                                           ; SOURCE LINE # 276 
+00C8 7F03           MOV    R7,#003H
+00CA 7D07           MOV    R5,#007H
+00CC 120000  R      LCALL  _LcdGotoXY
+                                           ; SOURCE LINE # 277 
+00CF 7F0D           MOV    R7,#00DH
+00D1 120000  R      LCALL  _LcdWriteCmd
+                                           ; SOURCE LINE # 278 
+00D4 020000  R      LJMP   ?NXT97
+00D7         ?CASE51:
+                                           ; SOURCE LINE # 280 
+00D7 7F0C           MOV    R7,#00CH
+00D9 120000  R      LCALL  _LcdWriteCmd
+                                           ; SOURCE LINE # 281 
+00DC E500    R      MOV    A,selThresh
+00DE 6009           JZ     ?CASE52
+00E0 14             DEC    A
+00E1 7003           JNZ    $ + 5
+00E3 020000  R      LJMP   ?CASE53
+00E6 020000  R      LJMP   ?NXT89
+00E9         ?CASE52:
+                                           ; SOURCE LINE # 284 
+00E9 7F02           MOV    R7,#002H
+00EB 7D07           MOV    R5,#007H
+00ED 120000  R      LCALL  _LcdGotoXY
+                                           ; SOURCE LINE # 287 
+00F0 C000    R      PUSH   D
+00F2 C000    R      PUSH   D+01H
+00F4 C000    R      PUSH   D+02H
+00F6 C000    R      PUSH   D+03H
+00F8 AC00    R      MOV    R4,Num
+00FA AD00    R      MOV    R5,Num+01H
+00FC AE00    R      MOV    R6,Num+02H
+00FE AF00    R      MOV    R7,Num+03H
+0100 120000  R      LCALL  ?DIVIIEEE
+0103 C004           PUSH   AR4
+0105 C005           PUSH   AR5
+0107 C006           PUSH   AR6
+0109 C007           PUSH   AR7
+010B 7C6F           MOV    R4,#06FH
+010D 7D12           MOV    R5,#012H
+010F 7E83           MOV    R6,#083H
+0111 7F3A           MOV    R7,#03AH
+0113 120000  R      LCALL  ?COMPIEEE
+0116 BF0102         CJNE   R7,#001H,?LAB97
+0119 800E           SJMP   ?ELSE37
+011B         ?LAB97:
+                                           ; SOURCE LINE # 289 
+011B 75006F  R      MOV    Thresh,#06FH
+011E 750012  R      MOV    Thresh+01H,#012H
+0121 750083  R      MOV    Thresh+02H,#083H
+0124 75003A  R      MOV    Thresh+03H,#03AH
+0127 8046           SJMP   ?NXT90
+0129         ?ELSE37:
+                                           ; SOURCE LINE # 292 
+0129 C000    R      PUSH   D
+012B C000    R      PUSH   D+01H
+012D C000    R      PUSH   D+02H
+012F C000    R      PUSH   D+03H
+0131 AC00    R      MOV    R4,Num
+0133 AD00    R      MOV    R5,Num+01H
+0135 AE00    R      MOV    R6,Num+02H
+0137 AF00    R      MOV    R7,Num+03H
+0139 120000  R      LCALL  ?DIVIIEEE
+013C C004           PUSH   AR4
+013E C005           PUSH   AR5
+0140 C006           PUSH   AR6
+0142 C007           PUSH   AR7
+0144 AC00    R      MOV    R4,Thresh+04H
+0146 AD00    R      MOV    R5,Thresh+05H
+0148 AE00    R      MOV    R6,Thresh+06H
+014A AF00    R      MOV    R7,Thresh+07H
+014C 120000  R      LCALL  ?COMPIEEE
+014F BF0102         CJNE   R7,#001H,?ELSE38
+                                           ; SOURCE LINE # 294 
+0152 801B           SJMP   ?NXT90
+0154         ?ELSE38:
+                                           ; SOURCE LINE # 297 
+0154 C000    R      PUSH   D
+0156 C000    R      PUSH   D+01H
+0158 C000    R      PUSH   D+02H
+015A C000    R      PUSH   D+03H
+015C AC00    R      MOV    R4,Num
+015E AD00    R      MOV    R5,Num+01H
+0160 AE00    R      MOV    R6,Num+02H
+0162 AF00    R      MOV    R7,Num+03H
+0164 120000  R      LCALL  ?DIVIIEEE
+0167 8C00    R      MOV    Thresh,R4
+0169 8D00    R      MOV    Thresh+01H,R5
+016B 8E00    R      MOV    Thresh+02H,R6
+016D 8F00    R      MOV    Thresh+03H,R7
+016F         ?NXT90:
+                                           ; SOURCE LINE # 299 
+016F C200    R      CLR    _DispFrequency?BIT
+0171 AC00    R      MOV    R4,Thresh
+0173 AD00    R      MOV    R5,Thresh+01H
+0175 AE00    R      MOV    R6,Thresh+02H
+0177 AF00    R      MOV    R7,Thresh+03H
+0179 120000  R      LCALL  _DispFrequency
+                                           ; SOURCE LINE # 300 
+017C 020000  R      LJMP   ?NXT89
+017F         ?CASE53:
+                                           ; SOURCE LINE # 302 
+017F 7F03           MOV    R7,#003H
+0181 7D07           MOV    R5,#007H
+0183 120000  R      LCALL  _LcdGotoXY
+                                           ; SOURCE LINE # 304 
+0186 C000    R      PUSH   D
+0188 C000    R      PUSH   D+01H
+018A C000    R      PUSH   D+02H
+018C C000    R      PUSH   D+03H
+018E AC00    R      MOV    R4,Num
+0190 AD00    R      MOV    R5,Num+01H
+0192 AE00    R      MOV    R6,Num+02H
+0194 AF00    R      MOV    R7,Num+03H
+0196 120000  R      LCALL  ?DIVIIEEE
+0199 C004           PUSH   AR4
+019B C005           PUSH   AR5
+019D C006           PUSH   AR6
+019F C007           PUSH   AR7
+01A1 AC00    R      MOV    R4,Thresh
+01A3 AD00    R      MOV    R5,Thresh+01H
+01A5 AE00    R      MOV    R6,Thresh+02H
+01A7 AF00    R      MOV    R7,Thresh+03H
+01A9 120000  R      LCALL  ?COMPIEEE
+01AC BFFF02         CJNE   R7,#0FFH,?ELSE39
+                                           ; SOURCE LINE # 306 
+01AF 8056           SJMP   ?NXT92
+01B1         ?ELSE39:
+                                           ; SOURCE LINE # 309 
+01B1 C000    R      PUSH   D
+01B3 C000    R      PUSH   D+01H
+01B5 C000    R      PUSH   D+02H
+01B7 C000    R      PUSH   D+03H
+01B9 AC00    R      MOV    R4,Num
+01BB AD00    R      MOV    R5,Num+01H
+01BD AE00    R      MOV    R6,Num+02H
+01BF AF00    R      MOV    R7,Num+03H
+01C1 120000  R      LCALL  ?DIVIIEEE
+01C4 C004           PUSH   AR4
+01C6 C005           PUSH   AR5
+01C8 C006           PUSH   AR6
+01CA C007           PUSH   AR7
+01CC E4             CLR    A
+01CD FC             MOV    R4,A
+01CE FD             MOV    R5,A
+01CF 747A           MOV    A,#07AH
+01D1 FE             MOV    R6,A
+01D2 7444           MOV    A,#044H
+01D4 FF             MOV    R7,A
+01D5 120000  R      LCALL  ?COMPIEEE
+01D8 BFFF02         CJNE   R7,#0FFH,?LAB99
+01DB 800F           SJMP   ?ELSE40
+01DD         ?LAB99:
+                                           ; SOURCE LINE # 311 
+01DD E4             CLR    A
+01DE F500    R      MOV    Thresh+04H,A
+01E0 F500    R      MOV    Thresh+05H,A
+01E2 747A           MOV    A,#07AH
+01E4 F500    R      MOV    Thresh+06H,A
+01E6 7444           MOV    A,#044H
+01E8 F500    R      MOV    Thresh+07H,A
+01EA 801B           SJMP   ?NXT92
+01EC         ?ELSE40:
+                                           ; SOURCE LINE # 314 
+01EC C000    R      PUSH   D
+01EE C000    R      PUSH   D+01H
+01F0 C000    R      PUSH   D+02H
+01F2 C000    R      PUSH   D+03H
+01F4 AC00    R      MOV    R4,Num
+01F6 AD00    R      MOV    R5,Num+01H
+01F8 AE00    R      MOV    R6,Num+02H
+01FA AF00    R      MOV    R7,Num+03H
+01FC 120000  R      LCALL  ?DIVIIEEE
+01FF 8C00    R      MOV    Thresh+04H,R4
+0201 8D00    R      MOV    Thresh+05H,R5
+0203 8E00    R      MOV    Thresh+06H,R6
+0205 8F00    R      MOV    Thresh+07H,R7
+0207         ?NXT92:
+                                           ; SOURCE LINE # 316 
+0207 C200    R      CLR    _DispFrequency?BIT
+0209 AC00    R      MOV    R4,Thresh+04H
+020B AD00    R      MOV    R5,Thresh+05H
+020D AE00    R      MOV    R6,Thresh+06H
+020F AF00    R      MOV    R7,Thresh+07H
+0211 120000  R      LCALL  _DispFrequency
+0214         ?NXT89:
+                                           ; SOURCE LINE # 319 
+0214 E4             CLR    A
+0215 F500    R      MOV    D,A
+0217 F500    R      MOV    D+01H,A
+0219 F500    R      MOV    D+02H,A
+021B F500    R      MOV    D+03H,A
+021D F500    R      MOV    r,A
+021F F500    R      MOV    Point,A
+0221 F500    R      MOV    Num,A
+0223 F500    R      MOV    Num+01H,A
+0225 7480           MOV    A,#080H
+0227 F500    R      MOV    Num+02H,A
+0229 743F           MOV    A,#03FH
+022B F500    R      MOV    Num+03H,A
+022D 750002  R      MOV    selThresh,#002H
+                                           ; SOURCE LINE # 320 
+0230 D2CA           SETB   TR2
+                                           ; SOURCE LINE # 321 
+0232 020000  R      LJMP   ?NXT97
+0235         ?DEFAULT3:
+                                           ; SOURCE LINE # 325 
+0235 E500    R      MOV    A,Point
+0237 B40200         CJNE   A,#002H,?LAB103
+023A         ?LAB103:
+023A 4003           JC     $ + 5
+023C 020000  R      LJMP   ?NXT88
+023F E500    R      MOV    A,r
+0241 6480           XRL    A,#080H
+0243 B48700         CJNE   A,#087H,?LAB105
+0246         ?LAB105:
+0246 5079           JNC    ?NXT88
+0248 E500    R      MOV    A,selThresh
+024A B40200         CJNE   A,#002H,?LAB107
+024D         ?LAB107:
+024D 5072           JNC    ?NXT88
+                                           ; SOURCE LINE # 327 
+024F E500    R      MOV    A,Point
+0251 B4011C         CJNE   A,#001H,?NXT95
+                                           ; SOURCE LINE # 328 
+0254 C000    R      PUSH   Num
+0256 C000    R      PUSH   Num+01H
+0258 C000    R      PUSH   Num+02H
+025A C000    R      PUSH   Num+03H
+025C E4             CLR    A
+025D FC             MOV    R4,A
+025E FD             MOV    R5,A
+025F 7420           MOV    A,#020H
+0261 FE             MOV    R6,A
+0262 7441           MOV    A,#041H
+0264 FF             MOV    R7,A
+0265 120000  R      LCALL  ?MULTIEEE
+0268 8C00    R      MOV    Num,R4
+026A 8D00    R      MOV    Num+01H,R5
+026C 8E00    R      MOV    Num+02H,R6
+026E 8F00    R      MOV    Num+03H,R7
+0270         ?NXT95:
+                                           ; SOURCE LINE # 330 
+0270 E500    R      MOV    A,Key
+0272 B4FE04         CJNE   A,#0FEH,?ELSE43
+                                           ; SOURCE LINE # 332 
+0275 0500    R      INC    Point
+0277 8031           SJMP   ?NXT96
+0279         ?ELSE43:
+                                           ; SOURCE LINE # 340 
+0279 C000    R      PUSH   D
+027B C000    R      PUSH   D+01H
+027D C000    R      PUSH   D+02H
+027F C000    R      PUSH   D+03H
+0281 E4             CLR    A
+0282 FC             MOV    R4,A
+0283 FD             MOV    R5,A
+0284 7420           MOV    A,#020H
+0286 FE             MOV    R6,A
+0287 7441           MOV    A,#041H
+0289 FF             MOV    R7,A
+028A 120000  R      LCALL  ?MULTIEEE
+028D C004           PUSH   AR4
+028F C005           PUSH   AR5
+0291 C006           PUSH   AR6
+0293 C007           PUSH   AR7
+0295 AF00    R      MOV    R7,Key
+0297 7E00           MOV    R6,#000H
+0299 E4             CLR    A
+029A FC             MOV    R4,A
+029B FD             MOV    R5,A
+029C 120000  R      LCALL  ?CV_LU_IEEE
+029F 120000  R      LCALL  ?ADDIEEE
+02A2 8C00    R      MOV    D,R4
+02A4 8D00    R      MOV    D+01H,R5
+02A6 8E00    R      MOV    D+02H,R6
+02A8 8F00    R      MOV    D+03H,R7
+02AA         ?NXT96:
+                                           ; SOURCE LINE # 341 
+02AA E500    R      MOV    A,selThresh
+02AC 2402           ADD    A,#002H
+02AE FF             MOV    R7,A
+02AF E500    R      MOV    A,r
+02B1 2407           ADD    A,#007H
+02B3 FD             MOV    R5,A
+02B4 120000  R      LCALL  _LcdGotoXY
+                                           ; SOURCE LINE # 342 
+02B7 0500    R      INC    r
+                                           ; SOURCE LINE # 343 
+02B9 E500    R      MOV    A,Key
+02BB 2430           ADD    A,#030H
+02BD FF             MOV    R7,A
+02BE 120000  R      LCALL  _LcdWriteChar
+02C1         ?NXT88:
+
+02C1         ?NXT97:
+                                           ; SOURCE LINE # 345 
+02C1 D007           POP    AR7
+02C3 D006           POP    AR6
+02C5 D005           POP    AR5
+02C7 D004           POP    AR4
+02C9 D003           POP    AR3
+02CB D002           POP    AR2
+02CD D001           POP    AR1
+02CF D000           POP    AR0
+02D1 D0D0           POP    PSW
+02D3 D082           POP    DPL
+02D5 D083           POP    DPH
+02D7 D0F0           POP    B
+02D9 D0E0           POP    ACC
+02DB 32             RETI   
+
+            ; FUNCTION Keypad_One (END)
+
+C51 COMPILER V6.11.4C,  MAIN                      05/29/112  09:26:42  PAGE  3
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+CntMSec. . . . . . . . . . . . . . . .  PUBLIC  DATA    BASE    0000H   1    
+Key. . . . . . . . . . . . . . . . . .  PUBLIC  DATA    BASE    0001H   1    
+ccon . . . . . . . . . . . . . . . . .  PUBLIC  DATA    BASE    0002H   1    
+TF16 . . . . . . . . . . . . . . . . .  PUBLIC  DATA    U_INT  0003H   2    
+TF16_Old . . . . . . . . . . . . . . .  PUBLIC  DATA    U_INT  0005H   2    
+Capture16. . . . . . . . . . . . . . .  PUBLIC  DATA    U_INT  0007H   2    
+PulseWidth . . . . . . . . . . . . . .  PUBLIC  DATA    U_INT  0009H   2    
+capLow . . . . . . . . . . . . . . . .  PUBLIC  DATA    BASE    000BH   1    
+capHigh. . . . . . . . . . . . . . . .  PUBLIC  DATA    BASE    000CH   1    
+Count32. . . . . . . . . . . . . . . .  PUBLIC  DATA    BASE    000DH   4    
+Thresh . . . . . . . . . . . . . . . .  PUBLIC  DATA    ARRAY   0011H   8    
+rCapture16 . . . . . . . . . . . . . .  PUBLIC  DATA    U_INT  0019H   2    
+rCount32 . . . . . . . . . . . . . . .  PUBLIC  DATA    BASE    001BH   4    
+Num. . . . . . . . . . . . . . . . . .  PUBLIC  DATA    FLOAT   001FH   4    
+D. . . . . . . . . . . . . . . . . . .  PUBLIC  DATA    FLOAT   0023H   4    
+selThresh. . . . . . . . . . . . . . .  PUBLIC  DATA    BASE    0027H   1    
+r. . . . . . . . . . . . . . . . . . .  PUBLIC  DATA    CHAR    0028H   1    
+Point. . . . . . . . . . . . . . . . .  PUBLIC  DATA    BASE    0029H   1    
+isInit . . . . . . . . . . . . . . . .  PUBLIC  DATA    BIT     0000H   1    
+Calib. . . . . . . . . . . . . . . . .  PUBLIC  IDATA   ARRAY   0000H   11   
+Mapping. . . . . . . . . . . . . . . .  PUBLIC  IDATA   ARRAY   000BH   16   
+filter . . . . . . . . . . . . . . . .  PUBLIC  IDATA   ARRAY   001BH   40   
+dac_value. . . . . . . . . . . . . . .  PUBLIC  DATA    BASE    002AH   1    
+state. . . . . . . . . . . . . . . . .  PUBLIC  DATA    BASE    002BH   1    
+command. . . . . . . . . . . . . . . .  PUBLIC  DATA    BASE    002CH   1    
+next . . . . . . . . . . . . . . . . .  PUBLIC  DATA    BASE    002DH   1    
+factor . . . . . . . . . . . . . . . .  PUBLIC  DATA    LONG    002EH   4    
+Delay5us . . . . . . . . . . . . . . .  PUBLIC  CODE    PROC    -----   -----
+Delay10ms. . . . . . . . . . . . . . .  PUBLIC  CODE    PROC    -----   -----
+SendToDAC. . . . . . . . . . . . . . .  PUBLIC  CODE    PROC    -----   -----
+  cmd?053. . . . . . . . . . . . . . .  PARAM   DATA    U_INT  0000H   2    
+  cmd?053. . . . . . . . . . . . . . .  PARAM   DATA    U_INT  0000H   2    
+dCnt?054 . . . . . . . . . . . . . . .  PUBLIC  DATA    CHAR    0000H   1    
+bits?055 . . . . . . . . . . . . . . .  PUBLIC  DATA    U_INT  0000H   2    
+CountsToFreq . . . . . . . . . . . . .  PUBLIC  CODE    PROC    -----   -----
+  C?056. . . . . . . . . . . . . . . .  PARAM   DATA    BASE    0000H   4    
+  C?056. . . . . . . . . . . . . . . .  PARAM   DATA    BASE    0000H   4    
+fr?057 . . . . . . . . . . . . . . . .  PUBLIC  DATA    FLOAT   0008H   4    
+sum?058. . . . . . . . . . . . . . . .  PUBLIC  DATA    FLOAT   0004H   4    
+u?059. . . . . . . . . . . . . . . . .  PUBLIC  DATA    BASE    000CH   1    
+Q1?060 . . . . . . . . . . . . . . . .  PUBLIC  DATA    BASE    000DH   1    
+DispFrequency. . . . . . . . . . . . .  PUBLIC  CODE    PROC    -----   -----
+  Fr?061 . . . . . . . . . . . . . . .  PARAM   DATA    FLOAT   0000H   4    
+  dac_en?062 . . . . . . . . . . . . .  PARAM   DATA    BIT     0000H   1    
+  Fr?061 . . . . . . . . . . . . . . .  PARAM   DATA    FLOAT   0000H   4    
+  dac_en?062 . . . . . . . . . . . . .  PARAM   DATA    BIT     0000H   1    
+W?063. . . . . . . . . . . . . . . . .  PUBLIC  DATA    BASE    0004H   4    
+D?064. . . . . . . . . . . . . . . . .  PUBLIC  DATA    BASE    0008H   4    
+LongToAscii. . . . . . . . . . . . . .  PUBLIC  CODE    PROC    -----   -----
+  Value?065. . . . . . . . . . . . . .  PARAM   DATA    BASE    0000H   4    
+  Value?065. . . . . . . . . . . . . .  PARAM   DATA    BASE    0000H   4    
+Q?066. . . . . . . . . . . . . . . . .  PUBLIC  DATA    BASE    0004H   1    
+DelayUs. . . . . . . . . . . . . . . .  PUBLIC  CODE    PROC    -----   -----
+LcdInit. . . . . . . . . . . . . . . .  PUBLIC  CODE    PROC    -----   -----
+LcdBusy. . . . . . . . . . . . . . . .  PUBLIC  CODE    PROC    -----   -----
+LcdWriteCmd. . . . . . . . . . . . . .  PUBLIC  CODE    PROC    -----   -----
+  var?068. . . . . . . . . . . . . . .  PARAM   DATA    BASE    0000H   1    
+  var?068. . . . . . . . . . . . . . .  PARAM   DATA    BASE    0000H   1    
+LcdWriteChar . . . . . . . . . . . . .  PUBLIC  CODE    PROC    -----   -----
+  var?069. . . . . . . . . . . . . . .  PARAM   DATA    BASE    0000H   1    
+  var?069. . . . . . . . . . . . . . .  PARAM   DATA    BASE    0000H   1    
+LcdWriteStr. . . . . . . . . . . . . .  PUBLIC  CODE    PROC    -----   -----
+  var?070. . . . . . . . . . . . . . .  PARAM   DATA    PTR     0000H   3    
+  var?070. . . . . . . . . . . . . . .  PARAM   DATA    PTR     0000H   3    
+LcdGotoXY. . . . . . . . . . . . . . .  PUBLIC  CODE    PROC    -----   -----
+  row?071. . . . . . . . . . . . . . .  PARAM   DATA    BASE    0000H   1    
+  col?072. . . . . . . . . . . . . . .  PARAM   DATA    BASE    0001H   1    
+  row?071. . . . . . . . . . . . . . .  PARAM   DATA    BASE    0000H   1    
+  col?072. . . . . . . . . . . . . . .  PARAM   DATA    BASE    0001H   1    
+LcdClear . . . . . . . . . . . . . . .  PUBLIC  CODE    PROC    -----   -----
+h?073. . . . . . . . . . . . . . . . .  PUBLIC  DATA    BASE    0000H   1    
+main . . . . . . . . . . . . . . . . .  PUBLIC  CODE    PROC    -----   -----
+dly?180. . . . . . . . . . . . . . . .  PUBLIC  DATA    U_INT  0000H   2    
+PCATimers. . . . . . . . . . . . . . .  PUBLIC  CODE    PROC    -----   -----
+Timer2 . . . . . . . . . . . . . . . .  PUBLIC  CODE    PROC    -----   -----
+Keypad_One . . . . . . . . . . . . . .  PUBLIC  CODE    PROC    -----   -----
+C51 COMPILER V6.11.4C,  MAIN                      05/29/112  09:26:42  PAGE  4
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   2625    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     50      25
+   IDATA SIZE       =     67    ----
+   BIT SIZE         =      1       1
+END OF MODULE INFORMATION.
+
+C51 COMPILATION COMPLETE.  0 WARNING,  0 ERROR

@@ -1,0 +1,284 @@
+C51 COMPILER V6.11.4C,  README                    01/24/114  12:47:53  PAGE  1
+
+QCW(0x00002D1A)
+
+WIN32 C51 COMPILER V6.11.4C, COMPILATION OF MODULE README    
+OBJECT MODULE PLACED IN e:\p\drm\microcontroller\rm_pca2.0 freezed\readme.obj
+COMPILER INVOKED BY: C51.EXE E:\P\DRM\MICROCONTROLLER\RM_PCA2.0 FREEZED\README.C
+            - OBJECT(E:\P\DRM\MICROCONTROLLER\RM_PCA2.0 FREEZED\README.OBJ) PIN(
+            -C:\FSI\INC) NOAM PR(E:\P\DRM\MICROCONTROLLER\RM_PCA2.0 FREEZED\READ
+            -ME.LST) CD SB OE(1) SM FP(NOFLOAT) PW(80) 
+
+stmt level    source
+   1          /*
+   2          Project:		Digital Rate Meter
+   3          Client:		Kundian Chemical Industries KCI
+   4          Programmer:	Sajjad Hussain, S.E.
+   5          Developer:	Sajjad Hussain, S.E.
+   6          
+   7          Specifications:
+   8          	
+   9          	Pulse
+  10          									___ 					 ___ 					  ___ 				   ___
+  11          								  |	|				   | 	 |				    |	  |				  | 	|
+  12          				______________|	|______________|	 |______________|	  |________
+            -______|	|_______________
+  13          				
+  14          				Ton	= > 2usec 	Actual Pulse
+  15          				Ton	  < 2usec 	Noise Pulse	(To be Filtered)
+  16          				
+  17          				Ton	Measured by	Timer1 Mode 2 and External Interrupt 1 pin (Ga
+            -ted Interrupt)
+  18          				Toff	Measured by PCA Timer and a Variable to Count no of Overf
+            -lows
+  19          	
+  20          	Freuency Range
+  21          			
+  22          			
+  23          			0.001 Hz		to			1000 Hz
+  24          	
+  25          	
+  26          	Threshold Settings
+  27          	
+  28          			Counts (@ Xtal =	1MHz)
+  29          			<---------------------|------------------------------------|---
+            --------------------------->
+  30          			10^9						C1												 C2									10^3
+  31          
+  32          
+  33          			Counts (@ Xtal =	4MHz)
+  34          			<---------------------|------------------------------------|---
+            --------------------------->
+  35          			4x10^9					C1												 C2									4x10^3
+  36          
+  37          
+  38          			Frequency (Hz)
+  39          			<---------------------|------------------------------------|---
+            --------------------------->
+  40          			0.001						f1												 f2									1000
+  41          			
+  42          	
+  43          	Different Ranges
+  44          	
+  45          				Frequncy				Counts				Condition		LED		Bulb(BAP)		R1R2R3
+  46          			===============================================================
+            -======================
+  47          			1.	f < f1				C >= C1				Normal			-			Green				1 1 1
+  48          			2. f1 <= f < f2		C2 <= f < C1		Warning			AL1		Yellow			1 1 0
+  49          			3.	f >= f2				C < C2				Threat			AL2		Red				0 1 0
+  50          			4.	f < 0.001			C > 4x10^9			No Pulse			MF			Yellow			? ? ?
+  51          			5.																					Yellow			0 1 1		AL1(Anamoly)
+  52          			6.																					Yellow			x 0 x		AL2(Anamoly)
+  53          
+  54          	Truth Table for Relays
+  55          
+  56          				Condition		LED		Bulb(BAP)		R1R2R3
+  57          			=========================================================
+  58          			1.	Normal			-			Green				1 1 1
+  59          			2. AL1(MF)			AL1,MF	Yellow			0 1 1
+  60          			3.	AL1				AL1		Yellow			1 1 0
+  61          			4.	AL2				AL2		Red				0 1 0
+  62          			5.	AL2(MF)			AL2,MF	Yellow			x 0 x					0 0 0
+  63          			6. Start				MF			Yellow			x 0 x	(Supposed)	0 0 0
+  64          			
+  65          
+  66          	Relay Position Noted During Visit to KCI	(07-02-2010)
+  67          
+  68          	========================			========================
+  69          			KCI Rate Meter							ICCC Rate Meter
+  70          	========================			========================	
+  71          	D2 D1 D0									R1 R2 R3
+  72          	BF	S2	S1		BAP	Condition		S2	BF	S1		BAP	Condition
+  73          	========================			========================
+  74          	1	1	1		G		Normal			1	1	1		G		Normal
+  75          	1	0	1		Y		AL1(MF)			0	1	1		Y		AL1(MF)
+  76          	1	1	0		Y		AL1				1	1	0		Y		AL1
+  77          	1	0	0		R		AL2				0	1	0		R		AL2
+  78          	0	x	x		Y		AL2(MF)			x	0	x		Y		AL2(MF)
+  79          
+  80          	Implementation of logarithmic Scale b/w frequency and DAC
+  81          	==========================================================
+  82          	
+  83          	|Iout
+  84          	|
+  85          	|           .
+  86          	|         .
+  87          	|       .
+  88          	|     .
+  89          	|   .
+  90          	|._ _ _ _ _ _ _ _ _ _ log(F)
+  91          	
+  92          	DAC Total Values:	256
+  93          	
+  94          	Count32 Range in log:	log(4e9) - log(4e3)	= 6
+  95           	therefore step size for Count32 is S = 6/256
+  96           	DAC Value = log(Count32)/S - log(4000)/S
+  97           	is equvalently implented as
+  98           	DAC Value = 10*[log(Count32)/S - log(4000)]/S
+  99           	DAC Value = DAC_Value / 10;
+ 100           	
+ 101           	Vout = (Vmax-Vmin)*DAC Value / 256 + Vmin*255/256	in Volts
+ 102           	Iout = 3*Vout + 1;	in mA
+ 103          
+ 104          			Counts (@ Xtal =	4MHz)
+ 105          			<---------------------|------------------------------------|---
+            --------------------------->
+ 106          			4x10^9					C1												 C2									4x10^3
+ 107          
+ 108          
+ 109          			Frequency (Hz)
+ 110          			<---------------------|------------------------------------|---
+            --------------------------->
+ 111          			0.001						f1												 f2									1000
+ 112           	
+ 113          			DAC Value (8 bit)
+ 114          			<---------------------|------------------------------------|---
+            --------------------------->
+ 115          			255						C1												 C2									0
+ 116          
+ 117          			Vout (v)
+ 118          			<---------------------|------------------------------------|---
+            --------------------------->
+ 119          			1v							C1												 C2									5v
+ 120          
+ 121          
+ 122          			Iout (mA)
+ 123          			<---------------------|------------------------------------|---
+            --------------------------->
+ 124          			4mA						f1												 f2									20mA
+ 125          
+ 126          
+ 127          		Edges
+ 128          		
+ 129          		Edge 1		Pulse +	
+ 130          		Edge 2		Pulse -
+ 131          		Edge 3-20	Relays
+ 132          		Edge 21		Recorder +
+ 133          		Edge 22		Recorder -
+ 134          		Edge 23-25	Unconnected
+ 135          		Edge 26		+5v
+ 136          		Edge 28		CC Led Anode
+ 137          		Edge 29		Pressure Signal/ Air Valve Signal
+ 138          		Edge 30-33	Ac input
+ 139          		Edge 34		Unconnected
+ 140          		
+ 141          		26,27	Short			Are physically short circuited
+ 142          		26,29 Short			MF is OFF
+ 143          		26,29 Open			MF is ON
+ 144          		28		+5V			CC is ON
+ 145          		28		0V				CC is OFF
+ 146          	*/ 
+ 147          
+ 148          
+ 149          
+ 150          
+ 151          
+ 152          
+ 153          
+ 154          
+ 155          
+ 156          
+ 157          
+ 158          
+ 159          
+ 160          
+ 161          
+ 162          
+ 163          
+ 164          
+ 165          
+ 166          
+ 167          
+ 168          
+ 169          
+ 170          
+ 171          
+ 172          
+ 173          
+ 174          
+ 175          
+ 176          
+ 177          
+ 178          
+ 179          
+ 180          
+ 181          
+ 182          
+ 183          
+ 184          
+ 185          
+ 186          
+ 187          
+ 188          
+ 189          
+ 190          
+ 191          
+ 192          
+ 193          
+ 194          
+ 195          
+ 196          
+ 197          
+ 198          
+ 199          
+ 200          
+ 201          
+ 202          
+ 203          
+ 204          
+ 205          
+ 206          
+ 207          
+ 208          
+ 209          
+ 210          
+ 211          
+ 212          
+ 213          
+ 214          
+ 215          
+ 216          
+ 217          
+ 218          
+ 219          
+ 220          
+ 221          
+ 222          
+ 223          
+ 224          
+ 225          
+ 226          
+ 227          
+ 228          
+ 229          
+ 230          
+ 231          
+ 232          
+ 233          
+ 234          
+ 235          
+ 236          
+C51 COMPILER V6.11.4C,  README                    01/24/114  12:47:53  PAGE  2
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+C51 COMPILER V6.11.4C,  README                    01/24/114  12:47:53  PAGE  3
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+C51 COMPILER V6.11.4C,  README                    01/24/114  12:47:53  PAGE  4
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+C51 COMPILATION COMPLETE.  0 WARNING,  0 ERROR

@@ -1,0 +1,114 @@
+/*
+	Test Module for Rate Meter
+	Crystal 1 MHz
+	i)	Generate the Different frequencies
+	ii) Generate the actual pulse from the input frequency (function generator)
+	iii)	Generate Noise Pulse
+*/
+module RateMeter(clk,				//1 MHz Crystal Clock
+						fgen,				// Function Generator 
+						sw,					// Add Noise Pulse to "freq_2us" or "fgen_2us"
+						dipsw,			// Select differet frequencies at "freq_2us"
+						fgen_2us,		// Function Generator frequency modified ON time
+						freq_1us,		// Self Generated Frequencies, with 1us ON time
+						freq_2us,		// Self Generated Frequencies, with 2us ON time
+						noise				// Noise Pulse
+						);
+
+input clk;
+input sw;
+input fgen;
+input [2:0] dipsw;
+
+output freq_2us;
+output freq_1us;
+output fgen_2us;
+output noise;
+
+reg [15:0] 	count=0;
+reg [31:0] 	count1=0;
+reg [2:0] 	shift;
+reg [2:0] 	shift1;
+reg [1:0] 	shift2;
+reg [2:0] 	shift3;
+reg freq;
+
+wire sw_sync;
+wire rst;
+
+//reg noisereg;
+wire noise;
+
+// Pull Down the Reset (Disable)
+assign rst=0;
+
+// Synchronized the Push Button
+always @(posedge clk or posedge rst)
+if (rst)
+	shift<=0;
+else 
+	shift<={shift[1:0],sw};
+
+assign sw_sync= shift[2]&(~shift[1]);
+
+
+always @(posedge clk or posedge rst)
+if (rst)
+	count<=0;
+else if (sw_sync)
+	count<=0;
+else if (count==16'hffff)
+	count<=count;
+else 
+	count<=count+1;
+
+assign noise = (count==16'hfffe)?1:0;
+
+// Main Counter used to Generate Frequencies
+always @(posedge clk or posedge rst)
+if (rst)
+	count1<=0;
+else
+	count1<=count1+1;
+// Select frequencies ( square) by DIP switch
+always @(dipsw or count1)
+case(dipsw)
+0:	freq=count1[7];					//3906.25
+1:	freq=count1[10];				//488.28125
+2:	freq=count1[13];				//61.03515625 
+3:	freq=count1[16];				//7.629394531 
+4:	freq=count1[19];				//0.953674316 
+5:	freq=count1[22];				//0.11920929
+6:	freq=count1[25];				//0.014901161
+7:	freq=count1[28];				//0.001862645
+default: freq=count1[19];		//0.953674316 
+endcase
+
+// Make freq ON time as 2us
+always @(posedge clk or posedge rst)
+if(rst)
+shift1<=0;
+else 
+shift1<={shift1[1:0], freq};
+
+assign freq_2us = ((~shift1[2])&shift1[0])^noise;
+ 
+// Make freq ON time as 1us
+always@(posedge clk or posedge rst)
+	if(rst)
+		shift2 <= 0;
+	else	
+		shift2 <= {shift2[1:0], freq};  		
+
+assign freq_1us = (~shift2[1]) & shift2[0];
+
+// Make freq ON time as 1us
+always@(posedge clk or posedge rst)
+	if(rst)
+		shift3 <= 0;
+	else	
+		shift3 <= {shift3[1:0], fgen};  		
+
+assign fgen_2us = ((~shift3[2]) & shift3[0])^noise;
+
+endmodule

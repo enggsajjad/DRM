@@ -1,0 +1,4 @@
+Mapping Module RateMeter . . .
+MAP command line:
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o RateMeter_map.ncd RateMeter.ngd RateMeter.pcf
+Mapping Module RateMeter: DONE

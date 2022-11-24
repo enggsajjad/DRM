@@ -1,0 +1,3 @@
+set ADucfFile {freq.ucf}
+set AD {}
+set ADcdcFile {}

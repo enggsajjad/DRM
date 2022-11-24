@@ -1,0 +1,3 @@
+Place & Route Module RateMeter . . .
+PAR command line: par -w -intstyle ise -ol std -t 1 RateMeter_map.ncd RateMeter.ncd RateMeter.pcf
+PAR completed successfully

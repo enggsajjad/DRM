@@ -1,0 +1,103 @@
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 freq.ngc freq.ngd
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o freq_map.ncd freq.ngd freq.pcf
+par -w -intstyle ise -ol std -t 1 freq_map.ncd freq.ncd freq.pcf
+trce -intstyle ise -e 3 -l 3 -xml freq freq.ncd -o freq.twr freq.pcf
+bitgen -intstyle ise -f freq.ut freq.ncd
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 freq.ngc freq.ngd
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o freq_map.ncd freq.ngd freq.pcf
+par -w -intstyle ise -ol std -t 1 freq_map.ncd freq.ncd freq.pcf
+trce -intstyle ise -e 3 -l 3 -xml freq freq.ncd -o freq.twr freq.pcf
+bitgen -intstyle ise -f freq.ut freq.ncd
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 freq.ngc freq.ngd
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o freq_map.ncd freq.ngd freq.pcf
+par -w -intstyle ise -ol std -t 1 freq_map.ncd freq.ncd freq.pcf
+trce -intstyle ise -e 3 -l 3 -xml freq freq.ncd -o freq.twr freq.pcf
+bitgen -intstyle ise -f freq.ut freq.ncd
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 freq.ngc freq.ngd
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o freq_map.ncd freq.ngd freq.pcf
+par -w -intstyle ise -ol std -t 1 freq_map.ncd freq.ncd freq.pcf
+trce -intstyle ise -e 3 -l 3 -xml freq freq.ncd -o freq.twr freq.pcf
+bitgen -intstyle ise -f freq.ut freq.ncd
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 freq.ngc freq.ngd
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o freq_map.ncd freq.ngd freq.pcf
+par -w -intstyle ise -ol std -t 1 freq_map.ncd freq.ncd freq.pcf
+trce -intstyle ise -e 3 -l 3 -xml freq freq.ncd -o freq.twr freq.pcf
+bitgen -intstyle ise -f freq.ut freq.ncd
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 freq.ngc freq.ngd
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o freq_map.ncd freq.ngd freq.pcf
+par -w -intstyle ise -ol std -t 1 freq_map.ncd freq.ncd freq.pcf
+trce -intstyle ise -e 3 -l 3 -xml freq freq.ncd -o freq.twr freq.pcf
+bitgen -intstyle ise -f freq.ut freq.ncd
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 freq.ngc freq.ngd
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o freq_map.ncd freq.ngd freq.pcf
+par -w -intstyle ise -ol std -t 1 freq_map.ncd freq.ncd freq.pcf
+trce -intstyle ise -e 3 -l 3 -xml freq freq.ncd -o freq.twr freq.pcf
+bitgen -intstyle ise -f freq.ut freq.ncd
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 freq.ngc freq.ngd
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 freq.ngc freq.ngd
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 freq.ngc freq.ngd
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 freq.ngc freq.ngd
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o freq_map.ncd freq.ngd freq.pcf
+par -w -intstyle ise -ol std -t 1 freq_map.ncd freq.ncd freq.pcf
+trce -intstyle ise -e 3 -l 3 -xml freq freq.ncd -o freq.twr freq.pcf
+bitgen -intstyle ise -f freq.ut freq.ncd
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 freq.ngc freq.ngd
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o freq_map.ncd freq.ngd freq.pcf
+par -w -intstyle ise -ol std -t 1 freq_map.ncd freq.ncd freq.pcf
+trce -intstyle ise -e 3 -l 3 -xml freq freq.ncd -o freq.twr freq.pcf
+bitgen -intstyle ise -f freq.ut freq.ncd
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 freq.ngc freq.ngd
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 freq.ngc freq.ngd
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o freq_map.ncd freq.ngd freq.pcf
+par -w -intstyle ise -ol std -t 1 freq_map.ncd freq.ncd freq.pcf
+trce -intstyle ise -e 3 -l 3 -xml freq freq.ncd -o freq.twr freq.pcf
+bitgen -intstyle ise -f freq.ut freq.ncd
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 freq.ngc freq.ngd
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o freq_map.ncd freq.ngd freq.pcf
+par -w -intstyle ise -ol std -t 1 freq_map.ncd freq.ncd freq.pcf
+trce -intstyle ise -e 3 -l 3 -xml freq freq.ncd -o freq.twr freq.pcf
+bitgen -intstyle ise -f freq.ut freq.ncd
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 freq.ngc freq.ngd
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 freq.ngc freq.ngd
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o freq_map.ncd freq.ngd freq.pcf
+par -w -intstyle ise -ol std -t 1 freq_map.ncd freq.ncd freq.pcf
+trce -intstyle ise -e 3 -l 3 -xml freq freq.ncd -o freq.twr freq.pcf
+bitgen -intstyle ise -f freq.ut freq.ncd
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 freq.ngc freq.ngd
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o freq_map.ncd freq.ngd freq.pcf
+par -w -intstyle ise -ol std -t 1 freq_map.ncd freq.ncd freq.pcf
+trce -intstyle ise -e 3 -l 3 -xml freq freq.ncd -o freq.twr freq.pcf
+bitgen -intstyle ise -f freq.ut freq.ncd
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 freq.ngc freq.ngd
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o freq_map.ncd freq.ngd freq.pcf
+par -w -intstyle ise -ol std -t 1 freq_map.ncd freq.ncd freq.pcf
+trce -intstyle ise -e 3 -l 3 -xml freq freq.ncd -o freq.twr freq.pcf
+bitgen -intstyle ise -f freq.ut freq.ncd
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+ngdbuild -intstyle ise -dd f:\ratemeter\genfreq/_ngo -uc freq.ucf  -p xc2s200-pq208-5 freq.ngc freq.ngd
+map -intstyle ise -p xc2s200-pq208-5 -cm area -pr b -k 4 -c 100 -tx off -o freq_map.ncd freq.ngd freq.pcf
+par -w -intstyle ise -ol std -t 1 freq_map.ncd freq.ncd freq.pcf
+trce -intstyle ise -e 3 -l 3 -xml freq freq.ncd -o freq.twr freq.pcf
+bitgen -intstyle ise -f freq.ut freq.ncd
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr
+xst -intstyle ise -ifn __projnav/freq.xst -ofn freq.syr

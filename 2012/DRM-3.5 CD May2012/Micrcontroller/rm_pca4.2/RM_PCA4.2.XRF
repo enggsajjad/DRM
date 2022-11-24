@@ -1,0 +1,102 @@
+WIN32 L51 CODE BANKING LINKER/LOCATOR V4.08.06,  INVOKED BY: 
+L51.EXE e:\p\drm\2012\rm_pca4.2\readme.OBJ,e:\p\drm\2012\rm_pca4.2\main.OBJ  to  E:\P\DRM\2012\RM_PCA4.2\RM_PCA4.2.ABS PR(E:\P\DRM\2012\RM_PCA4.2\RM_PCA4.2.M51) SN(1066142959415E46769E694) PW(80) RS(256) ix 
+
+INTER-MODULE CROSS-REFERENCE LISTING
+------------------------------------
+
+    NAME. . . . . . . . USAGE   MODULE NAMES
+    ----------------------------------------
+    ?ADDIEEE  . . . . . CODE    [ADSUIEEE]:  MAIN 
+    ?ADDIEEEX . . . . . CODE    [ADSUIEEE]: 
+    ?CAST_IEEE  . . . . CODE    [CONVIEEE]: 
+    ?COMPIEEE . . . . . CODE    [COMPIEEE]:  MAIN 
+    ?CV_CHAR_IEEE . . . CODE    [CONVIEEE]: 
+    ?CV_IEEE_LS . . . . CODE    [CONVIEEE]:  MAIN 
+    ?CV_IEEE_LU . . . . CODE    [CONVIEEE]: 
+    ?CV_LS_IEEE . . . . CODE    [CONVIEEE]: 
+    ?CV_LU_IEEE . . . . CODE    [CONVIEEE]:  MAIN 
+    ?C_CMPL . . . . . . CODE    [CMPL]:  MAIN 
+    ?C_CMPLS  . . . . . CODE    [CMPL]: 
+    ?C_INITSEGSTART . . CODE    [_C_INITD]:  C1S 
+    ?C_LADD . . . . . . CODE    [LADD]:  MAIN 
+    ?C_LMOD_SP  . . . . CODE    [LONG_UNSIGNED_MOD_SPEED_OPTIMIZED]:  MAIN 
+    ?C_LOP  . . . . . . CODE    [COML]:  LSUB, LADD 
+    ?C_LSHL . . . . . . CODE    [SHIFT_L]:  MAIN 
+    ?C_LSUB . . . . . . CODE    [LSUB]:  MAIN 
+    ?C_START1 . . . . . CODE    [C1S]:  MAIN 
+    ?C_ULDIV  . . . . . CODE    [LONG_UNSIGNED_DIV]: 
+    ?C_ULDIV_SP . . . . CODE    [LONG_UNSIGNED_DIV_SPEED_OPTIMIZED]:  LONG_UNSIGNED_MOD_SPEED_OPTIMIZED, MAIN 
+    ?DIVIIEEE . . . . . CODE    [DIVIIEEE]:  MAIN 
+    ?DIVIIEEEX  . . . . CODE    [DIVIIEEE]: 
+    ?DIV_STORE_Q_SZ . . CODE    [LONG_UNSIGNED_DIV]:  LONG_UNSIGNED_DIV_SPEED_OPTIMIZED 
+    ?LOOP_DIV_SZ  . . . CODE    [LONG_UNSIGNED_DIV]:  LONG_UNSIGNED_DIV_SPEED_OPTIMIZED 
+    ?MULTIEEE . . . . . CODE    [MULTIEEE]:  MAIN 
+    ?MULTIEEEX  . . . . CODE    [MULTIEEE]: 
+    ?SUBBIEEE . . . . . CODE    [ADSUIEEE]:  MAIN 
+    ?SUBBIEEEX  . . . . CODE    [ADSUIEEE]: 
+    CALIB . . . . . . . IDATA   [MAIN]: 
+    CAPHIGH . . . . . . DATA    [MAIN]: 
+    CAPLOW  . . . . . . DATA    [MAIN]: 
+    CAPTURE16 . . . . . DATA    [MAIN]: 
+    CCON  . . . . . . . DATA    [MAIN]: 
+    CNTMSEC . . . . . . DATA    [MAIN]: 
+    COMMAND . . . . . . DATA    [MAIN]: 
+    COUNT32 . . . . . . DATA    [MAIN]: 
+    D . . . . . . . . . DATA    [MAIN]: 
+    DAC_VALUE . . . . . DATA    [MAIN]: 
+    DELAY10MS . . . . . CODE    [MAIN]: 
+    DELAY5US  . . . . . CODE    [MAIN]: 
+    DELAYUS . . . . . . CODE    [MAIN]: 
+    DIVL?C_1  . . . . . CODE    [LONG_UNSIGNED_DIV]:  LONG_UNSIGNED_DIV_SPEED_OPTIMIZED 
+    DIVL?C_1_SP . . . . CODE    [LONG_UNSIGNED_DIV_SPEED_OPTIMIZED]: 
+    FACTOR  . . . . . . DATA    [MAIN]: 
+    FILTER  . . . . . . IDATA   [MAIN]: 
+    GESI?C  . . . . . . CODE    [GESI]:  LONG_UNSIGNED_DIV 
+    IDATALEN  . . . . .         [_C_IDATALEN]:  C1S 
+    IPGN1?C . . . . . . CODE    [IPGN1]:  MAIN 
+    ISINIT  . . . . . . BIT     [MAIN]: 
+    KEY . . . . . . . . DATA    [MAIN]: 
+    KEYPAD_ONE  . . . . CODE    [MAIN]: 
+    LCDBUSY . . . . . . CODE    [MAIN]: 
+    LCDCLEAR  . . . . . CODE    [MAIN]: 
+    LCDINIT . . . . . . CODE    [MAIN]: 
+    MAIN  . . . . . . . CODE    [MAIN]:  C1S 
+    MAPPING . . . . . . IDATA   [MAIN]: 
+    MV4_I02RG?C . . . . CODE    [MV_I02RG4]:  MAIN 
+    MV4_RG2I1?C . . . . CODE    [MV_RG2I14]:  MAIN 
+    MV4_XD2RG?C . . . . CODE    [MV_XD2RG4]:  DIVIIEEE, MULTIEEE, ADSUIEEE 
+    NEXT  . . . . . . . DATA    [MAIN]: 
+    NUM . . . . . . . . DATA    [MAIN]: 
+    PCATIMERS . . . . . CODE    [MAIN]: 
+    POINT . . . . . . . DATA    [MAIN]: 
+    PULSEWIDTH  . . . . DATA    [MAIN]: 
+    R . . . . . . . . . DATA    [MAIN]: 
+    RCAPTURE16  . . . . DATA    [MAIN]: 
+    RCOUNT32  . . . . . DATA    [MAIN]: 
+    RST_STK4?C  . . . . CODE    [RST_STK]:  CMPL, LONG_UNSIGNED_MOD_SPEED_OPTIMIZED, LSUB, LADD, LONG_UNSIGNED_DIV 
+    RST_STK6?C  . . . . CODE    [RST_STK]: 
+    RST_STK7?C  . . . . CODE    [RST_STK]: 
+    RST_STK?C . . . . . CODE    [RST_STK]: 
+    SELTHRESH . . . . . DATA    [MAIN]: 
+    STATE . . . . . . . DATA    [MAIN]: 
+    TF16  . . . . . . . DATA    [MAIN]: 
+    TF16_OLD  . . . . . DATA    [MAIN]: 
+    THRESH  . . . . . . DATA    [MAIN]: 
+    TIMER2  . . . . . . CODE    [MAIN]: 
+    _COUNTSTOFREQ . . . CODE    [MAIN]: 
+    _DISPFREQUENCY  . . CODE    [MAIN]:  MAIN 
+    _DISPFREQUENCY?BIT  BIT     [MAIN]:  MAIN 
+    _END_OP_IEEE?C  . . CODE    [TOOLIEEE]:  COMPIEEE, DIVIIEEE, MULTIEEE, ADSUIEEE 
+    _INITP2?  . . . . .         [_C_IDATALEN]:  C1S 
+    _LCDGOTOXY  . . . . CODE    [MAIN]: 
+    _LCDWRITECHAR . . . CODE    [MAIN]:  MAIN 
+    _LCDWRITECMD  . . . CODE    [MAIN]:  MAIN 
+    _LCDWRITESTR  . . . CODE    [MAIN]: 
+    _LONGTOASCII  . . . CODE    [MAIN]:  MAIN 
+    _SENDTODAC  . . . . CODE    [MAIN]: 
+    _STACK  . . . . . . IDATA   [README]:  C1S 
+    __IEEE_END_RESULT__ CODE    [TOOLIEEE]:  DIVIIEEE, MULTIEEE, ADSUIEEE 
+    __IEEE_GET_EXP_SET_MCODE    [TOOLIEEE]:  DIVIIEEE, MULTIEEE, ADSUIEEE 
+    __IEEE_RESULT_NULL__ ODECODE[TOOLIEEE]:  DIVIIEEE, MULTIEEE, ADSUIEEE 
+    __IEEE_TRAP_DEB__ . CODE    [TOOLIEEE]:  DIVIIEEE, MULTIEEE, ADSUIEEE 
+    __IEEE_TRAP_NAN__ . CODE    [TOOLIEEE]:  DIVIIEEE, MULTIEEE, ADSUIEEE 

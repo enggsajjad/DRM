@@ -1,0 +1,13 @@
+SCHEMATIC START ;
+// created by map version G.23 on Thu May 21 09:21:25 2009 
+COMP "clk" LOCATE =  SITE "P77" LEVEL 1; 
+COMP "fgen" LOCATE =  SITE "P74" LEVEL 1; 
+COMP "freq_1us" LOCATE =  SITE "P83" LEVEL 1; 
+COMP "dipsw<0>" LOCATE =  SITE "P188" LEVEL 1; 
+COMP "dipsw<1>" LOCATE =  SITE "P189" LEVEL 1; 
+COMP "freq_2us" LOCATE =  SITE "P86" LEVEL 1; 
+COMP "dipsw<2>" LOCATE =  SITE "P192" LEVEL 1; 
+COMP "sw" LOCATE =  SITE "P36" LEVEL 1; 
+COMP "noise" LOCATE =  SITE "P84" LEVEL 1; 
+COMP "fgen_2us" LOCATE =  SITE "P75" LEVEL 1; 
+SCHEMATIC END ;
